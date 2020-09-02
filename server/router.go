@@ -3,6 +3,7 @@ package server
 import (
 	"singo/api"
 	"singo/middleware"
+	"singo/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +14,6 @@ func NewRouter() *gin.Engine {
 
 	// 中间件, 顺序不能改
 	r.Use(middleware.Cors())
-	r.Use(middleware.CurrentUser())
 
 	// 路由
 	v1 := r.Group("/api/v1")
@@ -23,20 +23,40 @@ func NewRouter() *gin.Engine {
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
 
+		//路由添加
+		v1.POST("proxy/router/register", api.RegisterRouter)
+
 		// 需要登录保护的
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
 		{
-			// User Routing
+			// Auth Routing
 			auth.GET("user/me", api.UserMe)
 			auth.DELETE("user/logout", api.UserLogout)
 
 			//需要角色权限的
-			super_admin := auth.Group("")
-			super_admin.Use(middleware.ResourceAccess())
+			access := auth.Group("")
+			access.Use(middleware.ResourceAccess())
 			{
 				// 用户注册
-				super_admin.GET("user/register", api.UserRegister)
+				access.GET("user/register", api.UserRegister)
+			}
+		}
+
+		// 路由代理
+		appProxy := v1.Group("proxy")
+		appProxy.Use(middleware.AuthRequired())
+		appProxy.Use(middleware.ResourceAccess())
+		{
+			// 人员信息表
+			var rs []model.Router
+			model.DB.Model(model.Router{}).Find(&rs)
+			if nil != rs {
+				for _, v := range rs {
+					appProxy.Handle(v.Method, v.Path, func(context *gin.Context) {
+						context.JSON(200, "request has forward to application service!")
+					})
+				}
 			}
 		}
 	}

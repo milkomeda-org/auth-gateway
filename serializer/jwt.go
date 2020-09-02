@@ -4,5 +4,5 @@ type Jwt struct {
 }
 
 func IsLegal(jwt map[string]interface{}) bool {
-	return nil != jwt["exp"] && nil != jwt["iat"] && nil != jwt["user_name"] && nil != jwt["user_id"]
+	return nil != jwt["exp"] && nil != jwt["iat"] && nil != jwt["user_name"] && nil != jwt["user_id"] && nil != jwt["roles"] && nil != jwt["nick_name"] && nil != jwt["avatar"]
 }

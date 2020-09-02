@@ -3,13 +3,12 @@ package middleware
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"os"
 	"singo/model"
 	"singo/serializer"
 	"singo/util"
 	"strconv"
-
-	"github.com/gin-gonic/gin"
 )
 
 func getIdFromClaims(key string) map[string]interface{} {
@@ -33,32 +32,19 @@ func getIdFromClaims(key string) map[string]interface{} {
 	}
 }
 
-// CurrentUser 获取登录用户
-func CurrentUser() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		token := getIdFromClaims(c.GetHeader("Authorization"))
-		if nil != token && serializer.IsLegal(token) {
-			user, err := model.GetUser(token["user_id"])
-			if err == nil {
-				c.Set("user", &user)
-				c.Set("user_id", token["user_id"])
-			}
-		}
-		c.Next()
-	}
-}
-
 // AuthRequired 需要登录
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if user, _ := c.Get("user"); user != nil {
-			if _, ok := user.(*model.User); ok {
-				c.Next()
-				return
+		token := getIdFromClaims(c.GetHeader("Authorization"))
+		if nil != token && serializer.IsLegal(token) {
+			for s := range token {
+				c.Set(s, token[s])
 			}
+			c.Next()
+		} else {
+			c.JSON(200, serializer.CheckLogin())
+			c.Abort()
 		}
-		c.JSON(200, serializer.CheckLogin())
-		c.Abort()
 	}
 }
 
@@ -67,13 +53,12 @@ func ResourceAccess() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		act := c.Request.Method
 		obj := c.Request.URL.RequestURI()
-		var us []model.UserRoleMapping
-		user, _ := c.Get("user")
-		if value, ok := user.(*model.User); ok {
-			model.DB.Model(&model.UserRoleMapping{UserId: value.ID}).Find(&us)
-			if nil != us {
-				for i := range us {
-					sub := strconv.Itoa(int(us[i].RoleId))
+		roles, exists := c.Get("roles")
+		if exists {
+			rs := roles.([]interface{})
+			for _, value := range rs {
+				if v, ok := value.(float64); ok {
+					sub := strconv.FormatFloat(v, 'f', -1, 64)
 					if ok := model.Enforcer.Enforce(sub, act, obj); ok {
 						c.Next()
 						return

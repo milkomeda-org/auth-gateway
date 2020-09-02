@@ -28,6 +28,15 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
 
+	var urm []model.UserRoleMapping
+	var rs []int
+	model.DB.Model(model.UserRoleMapping{UserId: user.ID}).Find(&urm)
+	if nil != urm {
+		for i := range urm {
+			rs = append(rs, int(urm[i].RoleId))
+		}
+	}
+
 	//生成jwt
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := make(jwt.MapClaims)
@@ -35,6 +44,9 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	claims["iat"] = time.Now().Unix()
 	claims["user_name"] = user.UserName
 	claims["user_id"] = user.ID
+	claims["nick_name"] = user.Nickname
+	claims["avatar"] = user.Avatar
+	claims["roles"] = rs
 	token.Claims = claims
 
 	tokenStr, err := token.SignedString([]byte(os.Getenv("USER_AUTH_SECRET_KEY")))
