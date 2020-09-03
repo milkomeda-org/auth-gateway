@@ -2,6 +2,8 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"singo/cache"
+	"singo/proxy"
 	"singo/service"
 )
 
@@ -11,6 +13,9 @@ func RegisterRouter(c *gin.Context) {
 	if err := c.ShouldBind(&service); err == nil {
 		res := service.Register()
 		c.JSON(200, res)
+		go func() {
+			cache.AppProxyRouter.Handle(service.Method, service.Path, proxy.HostProxy)
+		}()
 	} else {
 		c.JSON(200, ErrorResponse(err))
 	}

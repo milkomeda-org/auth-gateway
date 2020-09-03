@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"github.com/gin-gonic/gin"
 	"os"
 	"singo/util"
 	"strconv"
@@ -29,3 +30,6 @@ func Redis() {
 
 	RedisClient = client
 }
+
+// AppProxyRouter 代理路由缓存
+var AppProxyRouter *gin.RouterGroup

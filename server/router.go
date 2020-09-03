@@ -2,8 +2,10 @@ package server
 
 import (
 	"singo/api"
+	"singo/cache"
 	"singo/middleware"
 	"singo/model"
+	"singo/proxy"
 
 	"github.com/gin-gonic/gin"
 )
@@ -53,11 +55,10 @@ func NewRouter() *gin.Engine {
 			model.DB.Model(model.Router{}).Find(&rs)
 			if nil != rs {
 				for _, v := range rs {
-					appProxy.Handle(v.Method, v.Path, func(context *gin.Context) {
-						context.JSON(200, "request has forward to application service!")
-					})
+					appProxy.Handle(v.Method, v.Path, proxy.HostProxy)
 				}
 			}
+			cache.AppProxyRouter = appProxy
 		}
 	}
 	return r
