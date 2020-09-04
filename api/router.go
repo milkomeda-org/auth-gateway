@@ -9,12 +9,12 @@ import (
 
 // RegisterRouter 注册路由
 func RegisterRouter(c *gin.Context) {
-	var service service.RouterRegisterService
-	if err := c.ShouldBind(&service); err == nil {
-		res := service.Register()
+	var rs service.RouterRegisterService
+	if err := c.ShouldBind(&rs); err == nil {
+		res := rs.Register()
 		c.JSON(200, res)
 		go func() {
-			cache.AppProxyRouter.Handle(service.Method, service.Path, proxy.HostProxy)
+			cache.AppProxyRouter.Handle(rs.Method, rs.Path, proxy.HostProxy)
 		}()
 	} else {
 		c.JSON(200, ErrorResponse(err))

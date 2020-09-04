@@ -54,7 +54,7 @@ func ResourceAccess() gin.HandlerFunc {
 		act := c.Request.Method
 		obj := c.Request.URL.RequestURI()
 		roles, exists := c.Get("roles")
-		if exists {
+		if exists && nil != roles {
 			rs := roles.([]interface{})
 			for _, value := range rs {
 				if v, ok := value.(float64); ok {

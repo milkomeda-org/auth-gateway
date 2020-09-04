@@ -42,6 +42,10 @@ func NewRouter() *gin.Engine {
 			{
 				// 用户注册
 				access.GET("user/register", api.UserRegister)
+
+				//角色管理
+				access.POST("role", api.CreateRole)
+				access.DELETE("role", api.DeleteRole)
 			}
 		}
 
