@@ -1,2 +1,9 @@
-- name: Golang Action
-  uses: cedrickring/golang-action@1.6.0
+on: push
+name: My cool Action
+jobs:
+  checks:
+    name: run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run custom command
+        uses: cedrickring/golang-action@1.6.0
