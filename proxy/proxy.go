@@ -16,6 +16,7 @@ var simpleHostProxy = httputil.ReverseProxy{
 	},
 }
 
+// HostProxy 路由代理
 func HostProxy(ctx *gin.Context) {
 	simpleHostProxy.ServeHTTP(ctx.Writer, ctx.Request)
 }

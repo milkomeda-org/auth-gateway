@@ -25,6 +25,7 @@ func (service *RouterRegisterService) valid() *serializer.Response {
 	return nil
 }
 
+// Register 注册路由
 func (service RouterRegisterService) Register() serializer.Response {
 
 	if err := service.valid(); err != nil {

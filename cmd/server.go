@@ -1,15 +1,16 @@
 package main
 
 import (
-	"goa/conf"
+	"goa/init"
 	"goa/server"
+	"os"
 )
 
 func main() {
 	// 从配置文件读取配置
-	conf.Init()
+	init.Init()
 
 	// 装载路由
 	r := server.NewRouter()
-	r.Run(":5000")
+	_ = r.Run(os.Getenv("SERVER_HOST"))
 }

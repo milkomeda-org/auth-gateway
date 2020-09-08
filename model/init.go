@@ -37,9 +37,10 @@ func Database(connString string) {
 	migration()
 }
 
-// Casbin
+// Enforcer Casbin装载器
 var Enforcer *casbin.Enforcer
 
+// CasbinLoader casbin配置加载
 func CasbinLoader(connString string) {
 	defer func() {
 		if recover() != nil {
@@ -48,6 +49,6 @@ func CasbinLoader(connString string) {
 		}
 	}()
 	a := xormadapter.NewAdapter("mysql", connString, true)
-	Enforcer = casbin.NewEnforcer("conf/locales/rbac_models.conf", a)
-	Enforcer.LoadPolicy()
+	Enforcer = casbin.NewEnforcer("configs/rbac_models.configs", a)
+	_ = Enforcer.LoadPolicy()
 }

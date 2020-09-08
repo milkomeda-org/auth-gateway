@@ -41,7 +41,7 @@ func CheckLogin() Response {
 	}
 }
 
-// 禁止访问 禁止访问
+// NoAccess 无权访问
 func NoAccess() Response {
 	return Response{
 		Code: CodeNoRightErr,

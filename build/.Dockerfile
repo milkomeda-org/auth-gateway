@@ -4,7 +4,7 @@ FROM golang:1.10
 WORKDIR $GOPATH/src/goa
 
 # Copy everything from the current directory to the PWD (Present Working Directory) inside the container
-COPY . .
+COPY .. .
 
 # Download all the dependencies
 RUN go get -d -v ./...

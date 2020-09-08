@@ -11,7 +11,7 @@ import (
 	"strconv"
 )
 
-func getIdFromClaims(key string) map[string]interface{} {
+func getIDFromClaims(key string) map[string]interface{} {
 	token, err := jwt.Parse(key, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -27,15 +27,14 @@ func getIdFromClaims(key string) map[string]interface{} {
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		return claims
-	} else {
-		return nil
 	}
+	return nil
 }
 
 // AuthRequired 需要登录
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := getIdFromClaims(c.GetHeader("Authorization"))
+		token := getIDFromClaims(c.GetHeader("Authorization"))
 		if nil != token && serializer.IsLegal(token) {
 			for s := range token {
 				c.Set(s, token[s])
@@ -48,7 +47,7 @@ func AuthRequired() gin.HandlerFunc {
 	}
 }
 
-// ResourcePermission 资源权限
+// ResourceAccess 资源授权
 func ResourceAccess() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		act := c.Request.Method
