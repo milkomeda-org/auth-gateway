@@ -1,16 +1,13 @@
 package main
 
 import (
-	"goa/init"
+	"goa/initializer"
 	"goa/server"
-	"os"
+	"strconv"
 )
 
 func main() {
-	// 从配置文件读取配置
-	init.Init()
-
 	// 装载路由
 	r := server.NewRouter()
-	_ = r.Run(os.Getenv("SERVER_HOST"))
+	_ = r.Run(initializer.Root.Server.Host + ":" + strconv.Itoa(int(initializer.Root.Server.Port)))
 }

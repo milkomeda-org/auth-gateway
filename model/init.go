@@ -2,6 +2,7 @@ package model
 
 import (
 	"goa/util"
+	"os"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -18,12 +19,12 @@ var DB *gorm.DB
 
 // Database 在中间件中初始化mysql链接
 func Database(connString string) {
-	db, err := gorm.Open("mysql", connString)
-	db.LogMode(true)
+	db, err := gorm.Open(os.Getenv("XORM_DRIVER_NAME"), connString)
 	// Error
 	if err != nil {
 		util.Log().Panic("连接数据库不成功", err)
 	}
+	db.LogMode(true)
 	//设置连接池
 	//空闲
 	db.DB().SetMaxIdleConns(50)
@@ -48,7 +49,7 @@ func CasbinLoader(connString string) {
 			return
 		}
 	}()
-	a := xormadapter.NewAdapter("mysql", connString, true)
-	Enforcer = casbin.NewEnforcer("configs/rbac_models.configs", a)
+	a := xormadapter.NewAdapter(os.Getenv("XORM_DRIVER_NAME"), connString, true)
+	Enforcer = casbin.NewEnforcer(os.Getenv("CASBIN_RBAC_MODELS_CONF_PATH"), a)
 	_ = Enforcer.LoadPolicy()
 }

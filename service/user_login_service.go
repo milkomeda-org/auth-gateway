@@ -30,10 +30,10 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 
 	var urm []model.UserRoleMapping
 	var rs []int
-	model.DB.Model(model.UserRoleMapping{UserId: user.ID}).Find(&urm)
+	model.DB.Model(model.UserRoleMapping{UserID: user.ID}).Find(&urm)
 	if nil != urm {
 		for i := range urm {
-			rs = append(rs, int(urm[i].RoleId))
+			rs = append(rs, int(urm[i].RoleID))
 		}
 	}
 
