@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"singo/model"
+	"goa/model"
 )
 
 type RoleCreateService struct {

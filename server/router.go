@@ -1,11 +1,11 @@
 package server
 
 import (
-	"singo/api"
-	"singo/cache"
-	"singo/middleware"
-	"singo/model"
-	"singo/proxy"
+	"goa/api"
+	"goa/cache"
+	"goa/middleware"
+	"goa/model"
+	"goa/proxy"
 
 	"github.com/gin-gonic/gin"
 )

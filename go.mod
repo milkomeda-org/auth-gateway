@@ -1,4 +1,4 @@
-module singo
+module goa
 
 go 1.15
 

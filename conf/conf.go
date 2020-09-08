@@ -1,10 +1,10 @@
 package conf
 
 import (
+	"goa/cache"
+	"goa/model"
+	"goa/util"
 	"os"
-	"singo/cache"
-	"singo/model"
-	"singo/util"
 
 	"github.com/joho/godotenv"
 )

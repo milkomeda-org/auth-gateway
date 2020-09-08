@@ -1,8 +1,8 @@
 package service
 
 import (
-	"singo/model"
-	"singo/serializer"
+	"goa/model"
+	"goa/serializer"
 )
 
 // RouterRegisterService 路由注册服务

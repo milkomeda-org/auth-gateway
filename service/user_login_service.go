@@ -1,9 +1,9 @@
 package service
 
 import (
+	"goa/model"
+	"goa/serializer"
 	"os"
-	"singo/model"
-	"singo/serializer"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"

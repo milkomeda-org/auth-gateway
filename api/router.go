@@ -2,9 +2,9 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"singo/cache"
-	"singo/proxy"
-	"singo/service"
+	"goa/cache"
+	"goa/proxy"
+	"goa/service"
 )
 
 // RegisterRouter 注册路由

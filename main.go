@@ -1,8 +1,8 @@
 package main
 
 import (
-	"singo/conf"
-	"singo/server"
+	"goa/conf"
+	"goa/server"
 )
 
 func main() {

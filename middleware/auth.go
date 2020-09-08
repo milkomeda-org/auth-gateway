@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"goa/model"
+	"goa/serializer"
+	"goa/util"
 	"os"
-	"singo/model"
-	"singo/serializer"
-	"singo/util"
 	"strconv"
 )
 

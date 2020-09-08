@@ -1,7 +1,7 @@
 package model
 
 import (
-	"singo/util"
+	"goa/util"
 	"time"
 
 	"github.com/jinzhu/gorm"

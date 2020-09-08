@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"singo/service"
+	"goa/service"
 )
 
 // CreateRole 创建角色

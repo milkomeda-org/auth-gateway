@@ -2,8 +2,8 @@ package cache
 
 import (
 	"github.com/gin-gonic/gin"
+	"goa/util"
 	"os"
-	"singo/util"
 	"strconv"
 
 	"github.com/go-redis/redis"

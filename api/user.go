@@ -1,8 +1,8 @@
 package api
 
 import (
-	"singo/serializer"
-	"singo/service"
+	"goa/serializer"
+	"goa/service"
 
 	"github.com/gin-gonic/gin"
 )
