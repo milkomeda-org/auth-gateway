@@ -23,6 +23,5 @@ type RoleDeleteService struct {
 
 // DeleteRole 删除角色
 func (r *RoleDeleteService) DeleteRole(c *gin.Context) bool {
-	//TODO 未完成功能
 	return nil == model.DB.Where("id = ?", r.Id).Delete(model.Role{}).Error
 }

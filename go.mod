@@ -1,6 +1,6 @@
 module singo
 
-go 1.12
+go 1.15
 
 require (
 	github.com/casbin/casbin v1.9.1
