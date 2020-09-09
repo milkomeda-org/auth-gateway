@@ -22,7 +22,7 @@ func Database(connString string) {
 	db, err := gorm.Open(os.Getenv("XORM_DRIVER_NAME"), connString)
 	// Error
 	if err != nil {
-		util.Log().Panic("连接数据库不成功", err)
+		util.Panic("连接数据库不成功", err)
 	}
 	db.LogMode(true)
 	//设置连接池
@@ -45,7 +45,7 @@ var Enforcer *casbin.Enforcer
 func CasbinLoader(connString string) {
 	defer func() {
 		if recover() != nil {
-			util.Log().Panic("连接数据库错误: %s", connString)
+			util.Panic("连接数据库错误: %s", connString)
 			return
 		}
 	}()

@@ -22,7 +22,7 @@ func getIDFromClaims(key string) map[string]interface{} {
 		return []byte(os.Getenv("USER_AUTH_SECRET_KEY")), nil
 	})
 	if nil != err {
-		util.Log().Error("Get user from jwt error: %v", token)
+		util.Error("Get user from jwt error: %v", err)
 		return nil
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {

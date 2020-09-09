@@ -3,11 +3,13 @@ package main
 import (
 	"goa/initializer"
 	"goa/server"
-	"strconv"
+	"os"
 )
 
 func main() {
+	initializer.InitDB()
+	initializer.InitLogger()
 	// 装载路由
 	r := server.NewRouter()
-	_ = r.Run(initializer.Root.Server.Host + ":" + strconv.Itoa(int(initializer.Root.Server.Port)))
+	_ = r.Run(os.Getenv("SERVER_HOST"))
 }

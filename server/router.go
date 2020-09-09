@@ -6,13 +6,15 @@ import (
 	"goa/middleware"
 	"goa/model"
 	"goa/proxy"
+	"goa/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 // NewRouter 路由配置
 func NewRouter() *gin.Engine {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(util.GinLogger(util.Logger), util.GinRecovery(util.Logger, true))
 
 	// 中间件, 顺序不能改
 	r.Use(middleware.Cors())
