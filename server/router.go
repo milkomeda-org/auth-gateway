@@ -6,10 +6,27 @@ import (
 	"goa/middleware"
 	"goa/model"
 	"goa/proxy"
+	"goa/serializer"
 	"goa/util"
 
 	"github.com/gin-gonic/gin"
 )
+
+type handlerFunc func(c *gin.Context) (error, interface{})
+
+// rest handle装饰器
+func restWrapper(handler handlerFunc) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		err, data := handler(c)
+		var result serializer.Response
+		if nil == err {
+			result = serializer.Success(data)
+		} else {
+			result = serializer.Failed(err)
+		}
+		c.JSON(200, result)
+	}
+}
 
 // NewRouter 路由配置
 func NewRouter() *gin.Engine {

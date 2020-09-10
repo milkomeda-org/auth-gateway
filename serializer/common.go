@@ -77,3 +77,23 @@ func ParamErr(msg string, err error) Response {
 	}
 	return Err(CodeParamErr, msg, err)
 }
+
+// 处理成功
+func Success(data interface{}) Response {
+	res := Response{
+		Code: 0,
+		Msg:  "操作成功",
+		Data: data,
+	}
+	return res
+}
+
+// 处理失败
+func Failed(data interface{}) Response {
+	res := Response{
+		Code: -1,
+		Msg:  "操作失败",
+		Data: data,
+	}
+	return res
+}
