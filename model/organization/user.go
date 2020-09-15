@@ -1,18 +1,34 @@
-package model
+package organization
 
 import (
 	"github.com/jinzhu/gorm"
+	"goa/initializer"
+	"goa/model"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // User 用户模型
 type User struct {
 	gorm.Model
-	UserName       string
-	PasswordDigest string
-	Nickname       string
-	Status         string
+	UserName       string `gorm:"not null"`
+	PasswordDigest string `gorm:"not null"`
+	Nickname       string `gorm:"not null"`
+	Status         string `gorm:"not null"`
 	Avatar         string `gorm:"size:1000"`
+}
+
+// UserRoleMapping 用户角色关联
+type UserRoleMapping struct {
+	model.BaseModel
+	UserID uint
+	RoleID uint
+}
+
+// UserModuleMapping 用户模块关联
+type UserModuleMapping struct {
+	model.BaseModel
+	UserID   uint
+	ModuleID uint
 }
 
 const (
@@ -29,7 +45,7 @@ const (
 // GetUser 用ID获取用户
 func GetUser(ID interface{}) (User, error) {
 	var user User
-	result := DB.Where("id = ?", ID).First(&user)
+	result := initializer.DB.Where("id = ?", ID).First(&user)
 	return user, result.Error
 }
 

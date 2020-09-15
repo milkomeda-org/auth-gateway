@@ -1,7 +1,8 @@
 package service
 
 import (
-	"goa/model"
+	"goa/initializer"
+	"goa/model/organization"
 	"goa/serializer"
 )
 
@@ -23,7 +24,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count := 0
-	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
+	initializer.DB.Model(&organization.User{}).Where("nickname = ?", service.Nickname).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -32,7 +33,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count = 0
-	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	initializer.DB.Model(&organization.User{}).Where("user_name = ?", service.UserName).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -45,10 +46,10 @@ func (service *UserRegisterService) valid() *serializer.Response {
 
 // Register 用户注册
 func (service *UserRegisterService) Register() serializer.Response {
-	user := model.User{
+	user := organization.User{
 		Nickname: service.Nickname,
 		UserName: service.UserName,
-		Status:   model.Active,
+		Status:   organization.Active,
 	}
 
 	// 表单验证
@@ -66,7 +67,7 @@ func (service *UserRegisterService) Register() serializer.Response {
 	}
 
 	// 创建用户
-	if err := model.DB.Create(&user).Error; err != nil {
+	if err := initializer.DB.Create(&user).Error; err != nil {
 		return serializer.ParamErr("注册失败", err)
 	}
 

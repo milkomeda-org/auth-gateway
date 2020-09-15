@@ -2,7 +2,8 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"goa/model"
+	"goa/initializer"
+	"goa/model/authorization"
 )
 
 // RoleCreateService 角色创建服务
@@ -12,10 +13,10 @@ type RoleCreateService struct {
 
 // CreateRole 创建角色
 func (r *RoleCreateService) CreateRole(c *gin.Context) bool {
-	role := model.Role{
+	role := authorization.Role{
 		Alias: r.Alias,
 	}
-	return nil == model.DB.Create(&role).Error
+	return nil == initializer.DB.Create(&role).Error
 }
 
 // RoleDeleteService 角色删除服务
@@ -25,5 +26,5 @@ type RoleDeleteService struct {
 
 // DeleteRole 删除角色
 func (r *RoleDeleteService) DeleteRole(c *gin.Context) bool {
-	return nil == model.DB.Where("id = ?", r.ID).Delete(model.Role{}).Error
+	return nil == initializer.DB.Where("id = ?", r.ID).Delete(authorization.Role{}).Error
 }

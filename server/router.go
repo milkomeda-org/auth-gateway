@@ -1,10 +1,13 @@
 package server
 
 import (
+	"errors"
 	"goa/api"
+	"goa/api/organization"
 	"goa/cache"
+	"goa/initializer"
 	"goa/middleware"
-	"goa/model"
+	"goa/model/resource"
 	"goa/proxy"
 	"goa/serializer"
 	"goa/util"
@@ -12,19 +15,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type handlerFunc func(c *gin.Context) (error, interface{})
+type handlerFunc func(c *gin.Context) serializer.Response
 
-// rest handle装饰器
-func restWrapper(handler handlerFunc) func(c *gin.Context) {
+// rest包装器
+func restWrapper(execute handlerFunc) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		err, data := handler(c)
-		var result serializer.Response
-		if nil == err {
-			result = serializer.Success(data)
-		} else {
-			result = serializer.Failed(err)
-		}
-		c.JSON(200, result)
+		defer func() {
+			if p := recover(); nil != p {
+				util.Error("panic %s", p)
+				c.JSON(500, serializer.Failed(errors.New("严重错误")))
+			}
+		}()
+		c.JSON(200, execute(c))
 	}
 }
 
@@ -59,6 +61,18 @@ func NewRouter() *gin.Engine {
 			access := auth.Group("")
 			access.Use(middleware.ResourceAccess())
 			{
+				// 组织管理
+				access.POST("office", restWrapper(organization.OfficeCreate))
+				access.PUT("office", restWrapper(organization.OfficeUpdate))
+				access.DELETE("office", restWrapper(organization.OfficeDelete))
+				// 职位管理
+				access.POST("position", restWrapper(organization.PositionCreate))
+				access.PUT("position", restWrapper(organization.PositionUpdate))
+				access.DELETE("position", restWrapper(organization.PositionDelete))
+				//// 用户组管理
+				access.POST("group", restWrapper(organization.GroupCreate))
+				access.PUT("group", restWrapper(organization.GroupUpdate))
+				access.DELETE("group", restWrapper(organization.GroupDelete))
 				// 用户注册
 				access.GET("user/register", api.UserRegister)
 
@@ -74,8 +88,8 @@ func NewRouter() *gin.Engine {
 		appProxy.Use(middleware.ResourceAccess())
 		{
 			// 人员信息表
-			var rs []model.Router
-			model.DB.Model(model.Router{}).Find(&rs)
+			var rs []resource.Router
+			initializer.DB.Model(resource.Router{}).Find(&rs)
 			if nil != rs {
 				for _, v := range rs {
 					appProxy.Handle(v.Method, v.Path, proxy.HostProxy)

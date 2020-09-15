@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"goa/configs"
-	"goa/model"
+	"goa/model/organization"
 	"goa/serializer"
 
 	"github.com/gin-gonic/gin"
@@ -20,9 +20,9 @@ func Ping(c *gin.Context) {
 }
 
 // CurrentUser 获取当前用户
-func CurrentUser(c *gin.Context) *model.User {
+func CurrentUser(c *gin.Context) *organization.User {
 	if user, _ := c.Get("user"); user != nil {
-		if u, ok := user.(*model.User); ok {
+		if u, ok := user.(*organization.User); ok {
 			return u
 		}
 	}

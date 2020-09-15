@@ -2,13 +2,14 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
-	"goa/model"
+	"goa/initializer"
 	"goa/serializer"
 	"goa/util"
 	"os"
 	"strconv"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 func getIDFromClaims(key string) map[string]interface{} {
@@ -51,14 +52,14 @@ func AuthRequired() gin.HandlerFunc {
 func ResourceAccess() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		act := c.Request.Method
-		obj := c.Request.URL.RequestURI()
+		obj := c.Request.URL.Path
 		roles, exists := c.Get("roles")
 		if exists && nil != roles {
 			rs := roles.([]interface{})
 			for _, value := range rs {
 				if v, ok := value.(float64); ok {
 					sub := strconv.FormatFloat(v, 'f', -1, 64)
-					if ok := model.Enforcer.Enforce(sub, act, obj); ok {
+					if ok := initializer.Enforcer.Enforce(sub, act, obj); ok {
 						c.Next()
 						return
 					}

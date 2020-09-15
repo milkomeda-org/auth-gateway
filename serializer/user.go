@@ -1,6 +1,8 @@
 package serializer
 
-import "goa/model"
+import (
+	"goa/model/organization"
+)
 
 // User 用户序列化器
 type User struct {
@@ -13,7 +15,7 @@ type User struct {
 }
 
 // BuildUser 序列化用户
-func BuildUser(user model.User) User {
+func BuildUser(user organization.User) User {
 	return User{
 		ID:        user.ID,
 		UserName:  user.UserName,
@@ -25,7 +27,7 @@ func BuildUser(user model.User) User {
 }
 
 // BuildUserResponse 序列化用户响应
-func BuildUserResponse(user model.User) Response {
+func BuildUserResponse(user organization.User) Response {
 	return Response{
 		Data: BuildUser(user),
 	}

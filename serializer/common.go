@@ -50,35 +50,30 @@ func NoAccess() Response {
 }
 
 // Err 通用错误处理
-func Err(errCode int, msg string, err error) Response {
+func Err(code int, msg string, err error) Response {
 	res := Response{
-		Code: errCode,
-		Msg:  msg,
+		Code: code,
 	}
-	// 生产环境隐藏底层报错
+	if "" == msg {
+		res.Msg = "操作失败"
+	} else {
+		res.Msg = msg
+	}
 	if err != nil && gin.Mode() != gin.ReleaseMode {
 		res.Error = err.Error()
 	}
 	return res
 }
 
-// DBErr 数据库操作失败
-func DBErr(msg string, err error) Response {
-	if msg == "" {
-		msg = "数据库操作失败"
-	}
-	return Err(CodeDBError, msg, err)
-}
-
-// ParamErr 各种参数错误
+// ParamErr 参数错误
 func ParamErr(msg string, err error) Response {
-	if msg == "" {
+	if "" == msg {
 		msg = "参数错误"
 	}
-	return Err(CodeParamErr, msg, err)
+	return Err(401, msg, err)
 }
 
-// 处理成功
+// Success 处理成功
 func Success(data interface{}) Response {
 	res := Response{
 		Code: 0,
@@ -88,12 +83,12 @@ func Success(data interface{}) Response {
 	return res
 }
 
-// 处理失败
-func Failed(data interface{}) Response {
+// Failed 处理失败
+func Failed(err error) Response {
 	res := Response{
-		Code: -1,
-		Msg:  "操作失败",
-		Data: data,
+		Code:  -1,
+		Msg:   "操作失败",
+		Error: err.Error(),
 	}
 	return res
 }

@@ -1,7 +1,8 @@
 package service
 
 import (
-	"goa/model"
+	"goa/initializer"
+	"goa/model/organization"
 	"goa/serializer"
 	"os"
 	"time"
@@ -18,22 +19,24 @@ type UserLoginService struct {
 
 // Login 用户登录函数
 func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
-	var user model.User
+	var user organization.User
 
-	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
+	if err := initializer.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
 
 	if user.CheckPassword(service.Password) == false {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
-
-	var urm []model.UserRoleMapping
 	var rs []int
-	model.DB.Model(model.UserRoleMapping{UserID: user.ID}).Find(&urm)
-	if nil != urm {
-		for i := range urm {
-			rs = append(rs, int(urm[i].RoleID))
+	// 查询用户继承的角色和自身角色
+	rows, _ := initializer.DB.Raw(`select role_id from position_role_mappings where position_id in (select id from position_user_mappings where user_id = ?)`, user.ID).Rows()
+	{
+		defer rows.Close()
+		for rows.Next() {
+			var v int
+			_ = rows.Scan(&v)
+			rs = append(rs, v)
 		}
 	}
 

@@ -1,7 +1,8 @@
 package service
 
 import (
-	"goa/model"
+	"goa/initializer"
+	"goa/model/resource"
 	"goa/serializer"
 )
 
@@ -14,7 +15,7 @@ type RouterRegisterService struct {
 // valid 验证表单
 func (service *RouterRegisterService) valid() *serializer.Response {
 	count := 0
-	model.DB.Model(&model.Router{}).Where("path = ? and method = ?", service.Path, service.Method).Count(&count)
+	initializer.DB.Model(&resource.Router{}).Where("path = ? and method = ?", service.Path, service.Method).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -32,12 +33,12 @@ func (service RouterRegisterService) Register() serializer.Response {
 		return *err
 	}
 
-	router := model.Router{
+	router := resource.Router{
 		Path:   service.Path,
 		Method: service.Method,
 	}
 
-	if err := model.DB.Create(&router).Error; err != nil {
+	if err := initializer.DB.Create(&router).Error; err != nil {
 		return serializer.Response{Code: 40001, Msg: err.Error()}
 	}
 
