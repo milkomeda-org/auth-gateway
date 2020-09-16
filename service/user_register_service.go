@@ -49,7 +49,6 @@ func (service *UserRegisterService) Register() serializer.Response {
 	user := organization.User{
 		Nickname: service.Nickname,
 		UserName: service.UserName,
-		Status:   organization.Active,
 	}
 
 	// 表单验证
@@ -71,5 +70,5 @@ func (service *UserRegisterService) Register() serializer.Response {
 		return serializer.ParamErr("注册失败", err)
 	}
 
-	return serializer.BuildUserResponse(user)
+	return serializer.Success(true)
 }

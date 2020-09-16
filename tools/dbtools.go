@@ -20,7 +20,6 @@ func Migration() {
 		&organization.Position{},
 		&organization.PositionModuleMapping{},
 		&organization.PositionRoleMapping{},
-		&organization.PositionUserMapping{},
 		&organization.Group{},
 		&organization.GroupModuleMapping{},
 		&organization.GroupRoleMapping{},

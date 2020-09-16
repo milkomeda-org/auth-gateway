@@ -28,15 +28,16 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	if user.CheckPassword(service.Password) == false {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
-	var rs []int
+	var rs = make(map[int]string, 0)
 	// 查询用户继承的角色和自身角色
-	rows, _ := initializer.DB.Raw(`select role_id from position_role_mappings where position_id in (select id from position_user_mappings where user_id = ?)`, user.ID).Rows()
+	rows, _ := initializer.DB.Raw(`select b.id id, b.alias alias from position_role_mappings a left join roles b on a.role_id = b.id where a.position_id in (select id from users where id = ?)`, user.ID).Rows()
 	{
 		defer rows.Close()
 		for rows.Next() {
-			var v int
-			_ = rows.Scan(&v)
-			rs = append(rs, v)
+			var id int
+			var alias string
+			_ = rows.Scan(&id, &alias)
+			rs[id] = alias
 		}
 	}
 
@@ -49,7 +50,7 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	claims["user_id"] = user.ID
 	claims["nick_name"] = user.Nickname
 	claims["avatar"] = user.Avatar
-	claims["roles"] = rs
+	claims["roles"] = &rs
 	token.Claims = claims
 
 	tokenStr, err := token.SignedString([]byte(os.Getenv("USER_AUTH_SECRET_KEY")))

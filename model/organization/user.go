@@ -1,20 +1,20 @@
 package organization
 
 import (
-	"github.com/jinzhu/gorm"
 	"goa/initializer"
 	"goa/model"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
 // User 用户模型
 type User struct {
-	gorm.Model
-	UserName       string `gorm:"not null"`
-	PasswordDigest string `gorm:"not null"`
-	Nickname       string `gorm:"not null"`
-	Status         string `gorm:"not null"`
-	Avatar         string `gorm:"size:1000"`
+	model.BaseModel
+	UserName       string `gorm:"not null;comment:'用户名'"`
+	PasswordDigest string `gorm:"not null;comment:'密码摘要'"`
+	Nickname       string `gorm:"not null;comment:'昵称'"`
+	Avatar         string `gorm:"size:1000;comment:'头像'"`
+	PositionID     uint   `gorm:"not null;comment:'身份ID'"`
 }
 
 // UserRoleMapping 用户角色关联
@@ -34,12 +34,6 @@ type UserModuleMapping struct {
 const (
 	// PassWordCost 密码加密难度
 	PassWordCost = 12
-	// Active 激活用户
-	Active string = "active"
-	// Inactive 未激活用户
-	Inactive string = "inactive"
-	// Suspend 被封禁用户
-	Suspend string = "suspend"
 )
 
 // GetUser 用ID获取用户

@@ -4,6 +4,7 @@
 package organization
 
 import (
+	"errors"
 	"goa/initializer"
 	"goa/model/organization"
 )
@@ -23,7 +24,16 @@ func (receiver PositionAddService) Execute() error {
 		Name:     receiver.Name,
 		Code:     receiver.Code,
 	}
-	// TODO 检查参数有效性
+	var count int
+	initializer.DB.Model(&organization.Office{}).Where("id = ?", receiver.OfficeID).Count(&count)
+	if count < 1 {
+		return errors.New("创建失败，组织不存在")
+	}
+	count = 0
+	initializer.DB.Model(&organization.Position{}).Where("id = ?", receiver.ParentID).Count(&count)
+	if count < 1 {
+		return errors.New("创建失败，上级不存在")
+	}
 	return initializer.DB.Model(&organization.Position{}).Save(&position).Error
 }
 
@@ -38,10 +48,8 @@ type PositionUpdateService struct {
 
 func (receiver PositionUpdateService) Execute() error {
 	position := organization.Position{
-		ParentID: receiver.ParentID,
-		Name:     receiver.Name,
+		Name: receiver.Name,
 	}
-	// TODO 检查参数有效性
 	return initializer.DB.Where("id = ?", receiver.ID).Updates(&position).Error
 }
 

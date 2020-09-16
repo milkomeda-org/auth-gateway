@@ -4,6 +4,7 @@
 package organization
 
 import (
+	"errors"
 	"goa/initializer"
 	"goa/model/organization"
 )
@@ -21,7 +22,11 @@ func (receiver OfficeAddService) Execute() error {
 		Name:     receiver.Name,
 		Type:     receiver.Type,
 	}
-	// TODO 检查参数有效性
+	var count int
+	initializer.DB.Model(&organization.Office{}).Where("id = ?", receiver.ParentID).Count(&count)
+	if count < 1 {
+		return errors.New("创建失败，上级不存在")
+	}
 	return initializer.DB.Model(&organization.Office{}).Save(&office).Error
 }
 
