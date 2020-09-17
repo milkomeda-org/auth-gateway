@@ -8,13 +8,13 @@ import (
 	"goa/model/organization"
 )
 
-// GroupAddService 用户组添加服务
-type GroupAddService struct {
+// GroupCreateService 用户组添加服务
+type GroupCreateService struct {
 	Name string `form:"name" json:"name" binding:"required"`
 	Code string `form:"code" json:"code" binding:"required"`
 }
 
-func (receiver GroupAddService) Execute() error {
+func (receiver GroupCreateService) Execute() error {
 	group := organization.Group{
 		Name: receiver.Name,
 		Code: receiver.Code,

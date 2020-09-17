@@ -12,7 +12,7 @@ import (
 
 // PositionCreate 创建职位
 func PositionCreate(c *gin.Context) serializer.Response {
-	var ps organization.PositionAddService
+	var ps organization.PositionCreateService
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
 
@@ -38,6 +38,32 @@ func PositionUpdate(c *gin.Context) serializer.Response {
 // PositionDelete 删除职位
 func PositionDelete(c *gin.Context) serializer.Response {
 	var ps organization.PositionDeleteService
+	if err := c.ShouldBind(&ps); err != nil {
+		return serializer.ParamErr("", err)
+
+	}
+	if e := ps.Execute(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// PositionRoleAdd 添加职位角色
+func PositionRoleAdd(c *gin.Context) serializer.Response {
+	var ps organization.PositionRoleMappingAddService
+	if err := c.ShouldBind(&ps); err != nil {
+		return serializer.ParamErr("", err)
+
+	}
+	if e := ps.Execute(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// PositionRoleRemove 移除职位角色
+func PositionRoleRemove(c *gin.Context) serializer.Response {
+	var ps organization.PositionRoleMappingRemoveService
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
 

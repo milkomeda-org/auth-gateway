@@ -9,14 +9,14 @@ import (
 	"goa/model/organization"
 )
 
-// OfficeAddService 组织添加服务
-type OfficeAddService struct {
+// OfficeCreateService 组织添加服务
+type OfficeCreateService struct {
 	ParentID uint   `form:"parentId" json:"parentId" binding:"required"`
 	Name     string `form:"name" json:"name" binding:"required"`
 	Type     uint   `form:"type" json:"type" binding:"required"`
 }
 
-func (receiver OfficeAddService) Execute() error {
+func (receiver OfficeCreateService) Execute() error {
 	office := organization.Office{
 		ParentID: receiver.ParentID,
 		Name:     receiver.Name,

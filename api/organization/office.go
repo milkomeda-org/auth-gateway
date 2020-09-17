@@ -12,7 +12,7 @@ import (
 
 // OfficeCreate 创建组织
 func OfficeCreate(c *gin.Context) serializer.Response {
-	var os organization.OfficeAddService
+	var os organization.OfficeCreateService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.ParamErr("", err)
 
@@ -45,5 +45,10 @@ func OfficeDelete(c *gin.Context) serializer.Response {
 	if e := os.Execute(); e != nil {
 		return serializer.Failed(e)
 	}
+	return serializer.Success(true)
+}
+
+// OfficeView 查看组织
+func OfficeView(c *gin.Context) serializer.Response {
 	return serializer.Success(true)
 }

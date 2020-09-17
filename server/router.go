@@ -4,6 +4,7 @@ import (
 	"errors"
 	"goa/api"
 	"goa/api/organization"
+	"goa/api/permission"
 	"goa/cache"
 	"goa/initializer"
 	"goa/middleware"
@@ -65,20 +66,33 @@ func NewRouter() *gin.Engine {
 				access.POST("office", restWrapper(organization.OfficeCreate))
 				access.PUT("office", restWrapper(organization.OfficeUpdate))
 				access.DELETE("office", restWrapper(organization.OfficeDelete))
+				access.GET("office", restWrapper(organization.OfficeView))
 				// 职位管理
-				access.POST("position", restWrapper(organization.PositionCreate))
-				access.PUT("position", restWrapper(organization.PositionUpdate))
-				access.DELETE("position", restWrapper(organization.PositionDelete))
+				position := access.Group("/position")
+				{
+					position.POST("", restWrapper(organization.PositionCreate))
+					position.PUT("", restWrapper(organization.PositionUpdate))
+					position.DELETE("", restWrapper(organization.PositionDelete))
+					position.POST("/role", restWrapper(organization.PositionRoleAdd))
+					position.DELETE("/role", restWrapper(organization.PositionRoleRemove))
+				}
 				//// 用户组管理
 				access.POST("group", restWrapper(organization.GroupCreate))
 				access.PUT("group", restWrapper(organization.GroupUpdate))
 				access.DELETE("group", restWrapper(organization.GroupDelete))
+
 				// 用户注册
 				access.GET("user/register", api.UserRegister)
 
 				//角色管理
 				access.POST("role", api.CreateRole)
 				access.DELETE("role", api.DeleteRole)
+
+				//授权管理
+				//x-www sub act obj
+				access.POST("permission", restWrapper(permission.AddAccess))
+				//query sub act obj
+				access.DELETE("permission", restWrapper(permission.RemoveAccess))
 			}
 		}
 

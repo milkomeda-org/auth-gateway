@@ -13,16 +13,16 @@ type Office struct {
 	Type     uint   `gorm:"not null;comment:'组织类型'"` // 组织类型
 }
 
-// OfficeModuleMapping 组织模块关联
-type OfficeModuleMapping struct {
-	model.BaseModel
-	OfficeID uint `gorm:"not null;comment:'组织ID'"`
-	ModuleID uint `gorm:"not null;comment:'模块ID'"`
-}
-
 // OfficeRoleMapping 组织角色关联
 type OfficeRoleMapping struct {
 	model.BaseModel
 	OfficeID uint `gorm:"not null;comment:'组织ID'"`
 	RoleID   uint `gorm:"not null;comment:'角色ID'"`
+}
+
+// OfficeModuleMapping 组织模块关联
+type OfficeModuleMapping struct {
+	model.BaseModel
+	OfficeID uint `gorm:"not null;comment:'组织ID'"`
+	ModuleID uint `gorm:"not null;comment:'模块ID'"`
 }

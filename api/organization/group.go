@@ -12,7 +12,7 @@ import (
 
 // GroupCreate 创建用户组
 func GroupCreate(c *gin.Context) serializer.Response {
-	var gs organization.GroupAddService
+	var gs organization.GroupCreateService
 	if err := c.ShouldBind(&gs); err != nil {
 		return serializer.ParamErr("", err)
 
