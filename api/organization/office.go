@@ -50,5 +50,10 @@ func OfficeDelete(c *gin.Context) serializer.Response {
 
 // OfficeView 查看组织
 func OfficeView(c *gin.Context) serializer.Response {
-	return serializer.Success(true)
+	var os organization.OfficeViewService
+	if v, err := os.Execute(); nil != err {
+		return serializer.Failed(err)
+	} else {
+		return serializer.Success(v)
+	}
 }

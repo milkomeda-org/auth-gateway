@@ -7,6 +7,9 @@ import (
 	"errors"
 	"goa/initializer"
 	"goa/model/organization"
+	serializerorganization "goa/serializer/organization"
+	"goa/statement"
+	"goa/util"
 )
 
 // OfficeCreateService 组织添加服务
@@ -55,4 +58,23 @@ type OfficeDeleteService struct {
 
 func (receiver OfficeDeleteService) Execute() error {
 	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Office{}).Error
+}
+
+// OfficeViewService 组织查看服务
+type OfficeViewService struct {
+}
+
+func (receiver OfficeViewService) Execute() (interface{}, error) {
+	var result []serializerorganization.OfficeSerializer
+	err := initializer.DB.Table("offices").Find(&result).Error
+	if nil != err {
+		return result, err
+	}
+	var se []statement.Sequence
+	for _, v := range result {
+		temp := v
+		se = append(se, &temp)
+	}
+	a := util.BuildTreeByRecursive(se)
+	return a, nil
 }

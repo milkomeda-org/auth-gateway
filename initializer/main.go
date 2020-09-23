@@ -1,11 +1,12 @@
 package initializer
 
 import (
-	"github.com/joho/godotenv"
 	"goa/cache"
 	"goa/configs"
 	"goa/util"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 // InitDB 初始化配置项
