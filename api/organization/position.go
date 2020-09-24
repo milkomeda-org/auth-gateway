@@ -15,7 +15,6 @@ func PositionCreate(c *gin.Context) serializer.Response {
 	var ps organization.PositionCreateService
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := ps.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -40,7 +39,6 @@ func PositionDelete(c *gin.Context) serializer.Response {
 	var ps organization.PositionDeleteService
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := ps.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -48,12 +46,24 @@ func PositionDelete(c *gin.Context) serializer.Response {
 	return serializer.Success(true)
 }
 
+// PositionView 查看职位
+func PositionView(c *gin.Context) serializer.Response {
+	var ps organization.PositionViewService
+	if err := c.ShouldBind(&ps); err != nil {
+		return serializer.ParamErr("", err)
+	}
+	if v, e := ps.Execute(); nil != e {
+		return serializer.Failed(e)
+	} else {
+		return serializer.Success(v)
+	}
+}
+
 // PositionRoleAdd 添加职位角色
 func PositionRoleAdd(c *gin.Context) serializer.Response {
 	var ps organization.PositionRoleMappingAddService
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := ps.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -66,7 +76,6 @@ func PositionRoleRemove(c *gin.Context) serializer.Response {
 	var ps organization.PositionRoleMappingRemoveService
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := ps.Execute(); e != nil {
 		return serializer.Failed(e)

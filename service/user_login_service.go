@@ -30,7 +30,7 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	}
 	var rs = make(map[int]string, 0)
 	// 查询用户继承的角色和自身角色
-	rows, _ := initializer.DB.Raw(`select b.id id, b.alias alias from position_role_mappings a left join roles b on a.role_id = b.id where a.position_id in (select id from users where id = ?)`, user.ID).Rows()
+	rows, _ := initializer.DB.Raw(`select b.id id, b.alias alias from position_role_mappings a left join roles b on a.role_id = b.id where a.position_id in (select position_id from users where id = ?)`, user.ID).Rows()
 	{
 		defer rows.Close()
 		for rows.Next() {
@@ -42,9 +42,9 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	}
 
 	//生成jwt
-	token := jwt.New(jwt.SigningMethodHS256)
+	token := jwt.New(jwt.SigningMethodHS512)
 	claims := make(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * time.Duration(24*7)).Unix()
 	claims["iat"] = time.Now().Unix()
 	claims["user_name"] = user.UserName
 	claims["user_id"] = user.ID

@@ -8,8 +8,8 @@ import (
 	"goa/initializer"
 	"goa/model/organization"
 	serializerorganization "goa/serializer/organization"
-	"goa/statement"
-	"goa/util"
+
+	"github.com/lauvinson/gogo/gogo"
 )
 
 // OfficeCreateService 组织添加服务
@@ -70,11 +70,11 @@ func (receiver OfficeViewService) Execute() (interface{}, error) {
 	if nil != err {
 		return result, err
 	}
-	var se []statement.Sequence
+	var se []gogo.ForkTreeNode
 	for _, v := range result {
 		temp := v
 		se = append(se, &temp)
 	}
-	a := util.BuildTreeByRecursive(se)
+	a := gogo.BuildTreeByRecursive(se)
 	return a, nil
 }

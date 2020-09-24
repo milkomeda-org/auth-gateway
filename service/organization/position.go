@@ -8,6 +8,9 @@ import (
 	"goa/initializer"
 	"goa/model/authorization"
 	"goa/model/organization"
+	serializerorganization "goa/serializer/organization"
+
+	"github.com/lauvinson/gogo/gogo"
 )
 
 // PositionCreateService 职位添加服务
@@ -63,6 +66,26 @@ func (receiver PositionDeleteService) Execute() error {
 	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Position{}).Error
 }
 
+// PositionViewService 职位查看服务
+type PositionViewService struct {
+	OfficeID uint `form:"officeId" json:"officeId" binding:"required"`
+}
+
+func (receiver PositionViewService) Execute() (interface{}, error) {
+	var result []serializerorganization.PositionSerializer
+	err := initializer.DB.Table("positions").Find(&result, "office_id = ?", receiver.OfficeID).Error
+	if nil != err {
+		return result, err
+	}
+	var se []gogo.ForkTreeNode
+	for _, v := range result {
+		temp := v
+		se = append(se, &temp)
+	}
+	a := gogo.BuildTreeByRecursive(se)
+	return a, nil
+}
+
 // PositionRoleMappingAddService 职位角色添加服务
 type PositionRoleMappingAddService struct {
 	PositionID uint `form:"positionId" json:"positionId" binding:"required"`
@@ -73,7 +96,7 @@ func (receiver PositionRoleMappingAddService) Execute() error {
 	var count = 0
 	initializer.DB.Model(&organization.Position{}).Where("id = ?", receiver.PositionID).Count(&count)
 	if count < 1 {
-		return errors.New("创建失败，身份不存在")
+		return errors.New("创建失败，职位不存在")
 	}
 	count = 0
 	initializer.DB.Model(&authorization.Role{}).Where("id = ?", receiver.RoleID).Count(&count)

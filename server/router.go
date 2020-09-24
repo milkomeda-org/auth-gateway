@@ -73,6 +73,7 @@ func NewRouter() *gin.Engine {
 					position.POST("", restWrapper(organization.PositionCreate))
 					position.PUT("", restWrapper(organization.PositionUpdate))
 					position.DELETE("", restWrapper(organization.PositionDelete))
+					position.GET("", restWrapper(organization.PositionView))
 					position.POST("/role", restWrapper(organization.PositionRoleAdd))
 					position.DELETE("/role", restWrapper(organization.PositionRoleRemove))
 				}
@@ -80,6 +81,7 @@ func NewRouter() *gin.Engine {
 				access.POST("group", restWrapper(organization.GroupCreate))
 				access.PUT("group", restWrapper(organization.GroupUpdate))
 				access.DELETE("group", restWrapper(organization.GroupDelete))
+				access.GET("group", restWrapper(organization.GroupView))
 
 				// 用户注册
 				access.GET("user/register", api.UserRegister)

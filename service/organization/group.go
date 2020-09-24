@@ -6,6 +6,7 @@ package organization
 import (
 	"goa/initializer"
 	"goa/model/organization"
+	serializerorganization "goa/serializer/organization"
 )
 
 // GroupCreateService 用户组添加服务
@@ -46,4 +47,14 @@ type GroupDeleteService struct {
 
 func (receiver GroupDeleteService) Execute() error {
 	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Group{}).Error
+}
+
+// GroupViewService 用户组查看服务
+type GroupViewService struct {
+}
+
+func (receiver GroupViewService) Execute() (interface{}, error) {
+	var result []serializerorganization.GroupSerializer
+	err := initializer.DB.Table("groups").Find(&result).Error
+	return result, err
 }

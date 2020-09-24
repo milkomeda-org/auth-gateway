@@ -47,3 +47,17 @@ func GroupDelete(c *gin.Context) serializer.Response {
 	}
 	return serializer.Success(true)
 }
+
+// GroupView 查看用户组
+func GroupView(c *gin.Context) serializer.Response {
+	var gs organization.GroupViewService
+	if err := c.ShouldBind(&gs); err != nil {
+		return serializer.ParamErr("", err)
+
+	}
+	if v, e := gs.Execute(); e != nil {
+		return serializer.Failed(e)
+	} else {
+		return serializer.Success(v)
+	}
+}
