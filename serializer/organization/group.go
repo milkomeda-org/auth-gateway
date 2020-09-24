@@ -9,6 +9,6 @@ import (
 
 type GroupSerializer struct {
 	model.BaseModel
-	Name string `gorm:"not null;comment:'组名称'"`
-	Code string `gorm:"not null;comment:'组编码'"`
+	Name string `json:"name"`
+	Code string `json:"code"`
 }

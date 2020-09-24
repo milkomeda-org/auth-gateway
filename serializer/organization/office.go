@@ -11,10 +11,10 @@ import (
 
 type OfficeSerializer struct {
 	model.BaseModel
-	ParentID uint   `gorm:"not null;comment:'上级ID'"` // 上级ID
-	Name     string `gorm:"not null;comment:'组织名称'"` // 组织名称
-	Type     uint   `gorm:"not null;comment:'组织类型'"` // 组织类型
-	Children []gogo.ForkTreeNode
+	ParentID uint                `json:"parent_id"` // 上级ID
+	Name     string              `json:"name"`      // 组织名称
+	Type     uint                `json:"type"`      // 组织类型
+	Children []gogo.ForkTreeNode `json:"children"`
 }
 
 func (receiver *OfficeSerializer) GetID() uint {
