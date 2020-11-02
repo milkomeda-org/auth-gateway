@@ -1,8 +1,8 @@
 package organization
 
 import (
-	"goa/initializer"
-	"goa/model"
+	"oa-auth/initializer"
+	"oa-auth/model"
 
 	"golang.org/x/crypto/bcrypt"
 )

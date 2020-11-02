@@ -1,7 +1,7 @@
 package initializer
 
 import (
-	"goa/util"
+	"oa-auth/util"
 	"os"
 	"time"
 
@@ -11,7 +11,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 
 	"github.com/casbin/casbin"
-	"github.com/casbin/xorm-adapter"
+	xormadapter "github.com/casbin/xorm-adapter"
 )
 
 // DB 数据库链接单例

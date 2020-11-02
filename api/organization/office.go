@@ -4,8 +4,8 @@
 package organization
 
 import (
-	"goa/serializer"
-	"goa/service/organization"
+	"oa-auth/serializer"
+	"oa-auth/service/organization"
 
 	"github.com/gin-gonic/gin"
 )

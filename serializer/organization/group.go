@@ -4,7 +4,7 @@
 package organization
 
 import (
-	"goa/model"
+	"oa-auth/model"
 )
 
 type GroupSerializer struct {

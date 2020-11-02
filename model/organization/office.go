@@ -3,7 +3,7 @@
 
 package organization
 
-import "goa/model"
+import "oa-auth/model"
 
 // Office 组织
 type Office struct {

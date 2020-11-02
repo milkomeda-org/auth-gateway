@@ -4,9 +4,10 @@
 package common
 
 import (
+	"oa-auth/serializer"
+	"oa-auth/statement"
+
 	"github.com/gin-gonic/gin"
-	"goa/serializer"
-	"goa/statement"
 )
 
 // Controller 通用controller

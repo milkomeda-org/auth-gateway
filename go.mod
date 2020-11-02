@@ -1,4 +1,4 @@
-module goa
+module oa-auth
 
 go 1.15
 

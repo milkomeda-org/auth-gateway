@@ -3,7 +3,7 @@
 
 package organization
 
-import "goa/model"
+import "oa-auth/model"
 
 // Position 身份,职位
 type Position struct {

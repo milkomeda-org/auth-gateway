@@ -1,13 +1,13 @@
-# Goa
+# oa-auth
 
 ## Document
 
-https://goa.open.source.lauvinson.com/
+https://oa-auth.open.source.lauvinson.com/
 
 ## Go Mod
 
 ```shell
-go mod init goa
+go mod init oa-auth
 export GOPROXY=http://mirrors.aliyun.com/goproxy/
 ```
 

@@ -1,9 +1,9 @@
 package service
 
 import (
-	"goa/initializer"
-	"goa/model/resource"
-	"goa/serializer"
+	"oa-auth/initializer"
+	"oa-auth/model/resource"
+	"oa-auth/serializer"
 )
 
 // RouterRegisterService 路由注册服务

@@ -1,7 +1,7 @@
 package serializer
 
 import (
-	"goa/model/organization"
+	"oa-auth/model/organization"
 )
 
 // User 用户序列化器

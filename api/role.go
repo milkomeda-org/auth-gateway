@@ -1,8 +1,9 @@
 package api
 
 import (
+	"oa-auth/service"
+
 	"github.com/gin-gonic/gin"
-	"goa/service"
 )
 
 // CreateRole 创建角色

@@ -2,7 +2,7 @@ package initializer
 
 import (
 	"fmt"
-	"goa/util"
+	"oa-auth/util"
 )
 
 // 初始化日志

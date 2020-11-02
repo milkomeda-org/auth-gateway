@@ -5,10 +5,10 @@ package organization
 
 import (
 	"errors"
-	"goa/initializer"
-	"goa/model/authorization"
-	"goa/model/organization"
-	serializerorganization "goa/serializer/organization"
+	"oa-auth/initializer"
+	"oa-auth/model/authorization"
+	"oa-auth/model/organization"
+	serializerorganization "oa-auth/serializer/organization"
 
 	"github.com/lauvinson/gogo/gogo"
 )

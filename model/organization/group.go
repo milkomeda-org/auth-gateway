@@ -3,7 +3,7 @@
 
 package organization
 
-import "goa/model"
+import "oa-auth/model"
 
 // Group 组
 type Group struct {

@@ -1,9 +1,9 @@
 package service
 
 import (
-	"goa/initializer"
-	"goa/model/organization"
-	"goa/serializer"
+	"oa-auth/initializer"
+	"oa-auth/model/organization"
+	"oa-auth/serializer"
 )
 
 // UserRegisterService 管理用户注册服务

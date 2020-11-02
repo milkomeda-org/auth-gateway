@@ -4,10 +4,10 @@
 package tools
 
 import (
-	"goa/initializer"
-	"goa/model/authorization"
-	"goa/model/organization"
-	"goa/model/resource"
+	"oa-auth/initializer"
+	"oa-auth/model/authorization"
+	"oa-auth/model/organization"
+	"oa-auth/model/resource"
 )
 
 // Migration 自动建表

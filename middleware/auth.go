@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"fmt"
-	"goa/initializer"
-	"goa/serializer"
-	"goa/util"
+	"oa-auth/initializer"
+	"oa-auth/serializer"
+	"oa-auth/util"
 	"os"
 	"strconv"
 

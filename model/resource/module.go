@@ -3,11 +3,11 @@
 
 package resource
 
-import "goa/model"
+import "oa-auth/model"
 
 // Module 模块
 type Module struct {
 	model.BaseModel
-	Name string `gorm:"not null"` // 模块名称
-	Code string `gorm:"not null"` // 模块编码
+	Name string `gorm:"not null comment:'模块名称'"` // 模块名称
+	Code string `gorm:"not null comment:'模块编码'"` // 模块编码
 }

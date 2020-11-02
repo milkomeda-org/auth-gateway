@@ -1,10 +1,11 @@
 package cache
 
 import (
-	"github.com/gin-gonic/gin"
-	"goa/util"
+	"oa-auth/util"
 	"os"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/go-redis/redis"
 )

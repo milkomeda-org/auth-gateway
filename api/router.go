@@ -1,10 +1,11 @@
 package api
 
 import (
+	"oa-auth/cache"
+	"oa-auth/proxy"
+	"oa-auth/service"
+
 	"github.com/gin-gonic/gin"
-	"goa/cache"
-	"goa/proxy"
-	"goa/service"
 )
 
 // RegisterRouter 注册路由

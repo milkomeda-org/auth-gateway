@@ -1,9 +1,9 @@
 package api
 
 import (
-	"goa/middleware"
-	"goa/serializer"
-	"goa/service"
+	"oa-auth/middleware"
+	"oa-auth/serializer"
+	"oa-auth/service"
 
 	"github.com/gin-gonic/gin"
 )

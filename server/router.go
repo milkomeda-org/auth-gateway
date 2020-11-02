@@ -2,16 +2,16 @@ package server
 
 import (
 	"errors"
-	"goa/api"
-	"goa/api/organization"
-	"goa/api/permission"
-	"goa/cache"
-	"goa/initializer"
-	"goa/middleware"
-	"goa/model/resource"
-	"goa/proxy"
-	"goa/serializer"
-	"goa/util"
+	"oa-auth/api"
+	"oa-auth/api/organization"
+	"oa-auth/api/permission"
+	"oa-auth/cache"
+	"oa-auth/initializer"
+	"oa-auth/middleware"
+	"oa-auth/model/resource"
+	"oa-auth/proxy"
+	"oa-auth/serializer"
+	"oa-auth/util"
 
 	"github.com/gin-gonic/gin"
 )

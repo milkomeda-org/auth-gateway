@@ -1,11 +1,18 @@
 package main
 
 import (
-	"goa/initializer"
-	"goa/server"
-	"goa/tools"
+	"oa-auth/initializer"
+	"oa-auth/server"
+	"oa-auth/tools"
 	"os"
+
+	"github.com/joho/godotenv"
 )
+
+func init() {
+	// 从本地读取环境变量
+	_ = godotenv.Load()
+}
 
 func main() {
 	initializer.InitDB()

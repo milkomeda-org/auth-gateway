@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"goa/initializer"
-	"goa/model/authorization"
+	"oa-auth/initializer"
+	"oa-auth/model/authorization"
 )
 
 // RoleCreateService 角色创建服务

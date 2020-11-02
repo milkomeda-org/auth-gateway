@@ -5,8 +5,8 @@ package permission
 
 import (
 	"errors"
-	"goa/initializer"
-	"goa/serializer"
+	"oa-auth/initializer"
+	"oa-auth/serializer"
 
 	"github.com/gin-gonic/gin"
 )
