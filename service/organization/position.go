@@ -5,7 +5,7 @@ package organization
 
 import (
 	"errors"
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model/authorization"
 	"oa-auth/model/organization"
 	serializerorganization "oa-auth/serializer/organization"
@@ -23,12 +23,12 @@ type PositionCreateService struct {
 
 func (receiver PositionCreateService) Execute() error {
 	var count int
-	initializer.DB.Model(&organization.Office{}).Where("id = ?", receiver.OfficeID).Count(&count)
+	db.DB.Model(&organization.Office{}).Where("id = ?", receiver.OfficeID).Count(&count)
 	if count < 1 {
 		return errors.New("创建失败，组织不存在")
 	}
 	count = 0
-	initializer.DB.Model(&organization.Position{}).Where("id = ?", receiver.ParentID).Count(&count)
+	db.DB.Model(&organization.Position{}).Where("id = ?", receiver.ParentID).Count(&count)
 	if count < 1 {
 		return errors.New("创建失败，上级不存在")
 	}
@@ -38,7 +38,7 @@ func (receiver PositionCreateService) Execute() error {
 		Name:     receiver.Name,
 		Code:     receiver.Code,
 	}
-	return initializer.DB.Model(&organization.Position{}).Save(&position).Error
+	return db.DB.Model(&organization.Position{}).Save(&position).Error
 }
 
 // PositionAddService 职位更新服务
@@ -54,7 +54,7 @@ func (receiver PositionUpdateService) Execute() error {
 	position := organization.Position{
 		Name: receiver.Name,
 	}
-	return initializer.DB.Where("id = ?", receiver.ID).Updates(&position).Error
+	return db.DB.Where("id = ?", receiver.ID).Updates(&position).Error
 }
 
 // PositionAddService 职位删除服务
@@ -63,7 +63,7 @@ type PositionDeleteService struct {
 }
 
 func (receiver PositionDeleteService) Execute() error {
-	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Position{}).Error
+	return db.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Position{}).Error
 }
 
 // PositionViewService 职位查看服务
@@ -73,7 +73,7 @@ type PositionViewService struct {
 
 func (receiver PositionViewService) Execute() (interface{}, error) {
 	var result []serializerorganization.PositionSerializer
-	err := initializer.DB.Table("positions").Find(&result, "office_id = ?", receiver.OfficeID).Error
+	err := db.DB.Table("positions").Find(&result, "office_id = ?", receiver.OfficeID).Error
 	if nil != err {
 		return result, err
 	}
@@ -94,12 +94,12 @@ type PositionRoleMappingAddService struct {
 
 func (receiver PositionRoleMappingAddService) Execute() error {
 	var count = 0
-	initializer.DB.Model(&organization.Position{}).Where("id = ?", receiver.PositionID).Count(&count)
+	db.DB.Model(&organization.Position{}).Where("id = ?", receiver.PositionID).Count(&count)
 	if count < 1 {
 		return errors.New("创建失败，职位不存在")
 	}
 	count = 0
-	initializer.DB.Model(&authorization.Role{}).Where("id = ?", receiver.RoleID).Count(&count)
+	db.DB.Model(&authorization.Role{}).Where("id = ?", receiver.RoleID).Count(&count)
 	if count < 1 {
 		return errors.New("创建失败，角色不存在")
 	}
@@ -107,7 +107,7 @@ func (receiver PositionRoleMappingAddService) Execute() error {
 		PositionID: receiver.PositionID,
 		RoleID:     receiver.RoleID,
 	}
-	return initializer.DB.Model(&organization.PositionRoleMapping{}).Save(&positionRole).Error
+	return db.DB.Model(&organization.PositionRoleMapping{}).Save(&positionRole).Error
 }
 
 // PositionRoleMappingRemoveService 职位角色删除服务
@@ -116,5 +116,5 @@ type PositionRoleMappingRemoveService struct {
 }
 
 func (receiver PositionRoleMappingRemoveService) Execute() error {
-	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.PositionRoleMapping{}).Error
+	return db.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.PositionRoleMapping{}).Error
 }

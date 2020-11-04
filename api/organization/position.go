@@ -52,11 +52,11 @@ func PositionView(c *gin.Context) serializer.Response {
 	if err := c.ShouldBind(&ps); err != nil {
 		return serializer.ParamErr("", err)
 	}
-	if v, e := ps.Execute(); nil != e {
+	v, e := ps.Execute()
+	if nil != e {
 		return serializer.Failed(e)
-	} else {
-		return serializer.Success(v)
 	}
+	return serializer.Success(v)
 }
 
 // PositionRoleAdd 添加职位角色

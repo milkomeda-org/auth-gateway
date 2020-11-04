@@ -3,14 +3,14 @@ package api
 import (
 	"oa-auth/middleware"
 	"oa-auth/serializer"
-	"oa-auth/service"
+	"oa-auth/service/user"
 
 	"github.com/gin-gonic/gin"
 )
 
 // UserRegister 用户注册接口
 func UserRegister(c *gin.Context) {
-	var us service.UserRegisterService
+	var us user.UserRegisterService
 	if err := c.ShouldBind(&us); err == nil {
 		res := us.Register()
 		c.JSON(200, res)
@@ -28,7 +28,7 @@ func UserLogin(c *gin.Context) {
 		})
 		return
 	}
-	var us service.UserLoginService
+	var us user.UserLoginService
 	if err := c.ShouldBind(&us); err == nil {
 		res := us.Login(c)
 		c.JSON(200, res)

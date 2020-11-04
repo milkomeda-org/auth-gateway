@@ -4,7 +4,7 @@
 package organization
 
 import (
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model/organization"
 	serializerorganization "oa-auth/serializer/organization"
 )
@@ -21,7 +21,7 @@ func (receiver GroupCreateService) Execute() error {
 		Code: receiver.Code,
 	}
 	// TODO 检查参数有效性
-	return initializer.DB.Model(&organization.Group{}).Save(&group).Error
+	return db.DB.Model(&organization.Group{}).Save(&group).Error
 }
 
 // GroupAddService 用户组更新服务
@@ -37,7 +37,7 @@ func (receiver GroupUpdateService) Execute() error {
 		Code: receiver.Code,
 	}
 	// TODO 检查参数有效性
-	return initializer.DB.Where("id = ?", receiver.ID).Updates(&group).Error
+	return db.DB.Where("id = ?", receiver.ID).Updates(&group).Error
 }
 
 // GroupAddService 用户组删除服务
@@ -46,7 +46,7 @@ type GroupDeleteService struct {
 }
 
 func (receiver GroupDeleteService) Execute() error {
-	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Group{}).Error
+	return db.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Group{}).Error
 }
 
 // GroupViewService 用户组查看服务
@@ -55,6 +55,6 @@ type GroupViewService struct {
 
 func (receiver GroupViewService) Execute() (interface{}, error) {
 	var result []serializerorganization.GroupSerializer
-	err := initializer.DB.Table("groups").Find(&result).Error
+	err := db.DB.Table("groups").Find(&result).Error
 	return result, err
 }

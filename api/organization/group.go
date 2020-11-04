@@ -15,7 +15,6 @@ func GroupCreate(c *gin.Context) serializer.Response {
 	var gs organization.GroupCreateService
 	if err := c.ShouldBind(&gs); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := gs.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -40,7 +39,6 @@ func GroupDelete(c *gin.Context) serializer.Response {
 	var gs organization.GroupDeleteService
 	if err := c.ShouldBind(&gs); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := gs.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -53,7 +51,6 @@ func GroupView(c *gin.Context) serializer.Response {
 	var gs organization.GroupViewService
 	if err := c.ShouldBind(&gs); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if v, e := gs.Execute(); e != nil {
 		return serializer.Failed(e)

@@ -4,7 +4,7 @@
 package tools
 
 import (
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model/authorization"
 	"oa-auth/model/organization"
 	"oa-auth/model/resource"
@@ -13,7 +13,7 @@ import (
 // Migration 自动建表
 func Migration() {
 	// 自动迁移模式
-	initializer.DB.AutoMigrate(
+	db.DB.AutoMigrate(
 		&organization.Office{},
 		&organization.OfficeModuleMapping{},
 		&organization.OfficeRoleMapping{},

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"oa-auth/initializer"
-	"oa-auth/server"
-	"oa-auth/tools"
+	"oa-auth/initializer/db"
+	"oa-auth/router"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -12,14 +13,17 @@ import (
 func init() {
 	// 从本地读取环境变量
 	_ = godotenv.Load()
+	gin.SetMode(os.Getenv("GIN_MODE"))
 }
 
 func main() {
-	initializer.InitDB()
+	//组件初始化
 	initializer.InitLogger()
-	//自动迁移建表
-	tools.Migration()
+	db.InitDB()
+	//tools.Migration()
+	//系统初始化
+	initializer.InitSystem()
 	// 装载路由
-	r := server.NewRouter()
+	r := router.NewRouter()
 	_ = r.Run(os.Getenv("SERVER_HOST"))
 }

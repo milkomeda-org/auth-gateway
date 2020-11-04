@@ -1,7 +1,7 @@
 package organization
 
 import (
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model"
 
 	"golang.org/x/crypto/bcrypt"
@@ -39,7 +39,7 @@ const (
 // GetUser 用ID获取用户
 func GetUser(ID interface{}) (User, error) {
 	var user User
-	result := initializer.DB.Where("id = ?", ID).First(&user)
+	result := db.DB.Where("id = ?", ID).First(&user)
 	return user, result.Error
 }
 

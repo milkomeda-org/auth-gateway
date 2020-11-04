@@ -1,4 +1,4 @@
-package server
+package router
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"oa-auth/api/organization"
 	"oa-auth/api/permission"
 	"oa-auth/cache"
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/middleware"
 	"oa-auth/model/resource"
 	"oa-auth/proxy"
@@ -54,9 +54,11 @@ func NewRouter() *gin.Engine {
 		auth := v1.Group("")
 		auth.Use(middleware.AuthRequired())
 		{
-			// Auth Routing
-			auth.GET("user/me", api.UserMe)
-			auth.DELETE("user/logout", api.UserLogout)
+			// Auth Routes
+
+			user := auth.Group("user")
+			user.GET("me", api.UserMe)
+			user.DELETE("logout", api.UserLogout)
 
 			//需要角色权限的
 			access := auth.Group("")
@@ -84,7 +86,7 @@ func NewRouter() *gin.Engine {
 				access.GET("group", restWrapper(organization.GroupView))
 
 				// 用户注册
-				access.GET("user/register", api.UserRegister)
+				access.POST("user/register", api.UserRegister)
 
 				//角色管理
 				access.POST("role", api.CreateRole)
@@ -93,7 +95,7 @@ func NewRouter() *gin.Engine {
 				//授权管理
 				//x-www sub act obj
 				access.POST("permission", restWrapper(permission.AddAccess))
-				//query sub act obj
+				// query sub act obj
 				access.DELETE("permission", restWrapper(permission.RemoveAccess))
 			}
 		}
@@ -105,7 +107,7 @@ func NewRouter() *gin.Engine {
 		{
 			// 人员信息表
 			var rs []resource.Router
-			initializer.DB.Model(resource.Router{}).Find(&rs)
+			db.DB.Model(resource.Router{}).Find(&rs)
 			if nil != rs {
 				for _, v := range rs {
 					appProxy.Handle(v.Method, v.Path, proxy.HostProxy)

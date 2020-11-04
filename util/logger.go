@@ -41,9 +41,9 @@ func getEncoder() zapcore.Encoder {
 	encoderConfig.StacktraceKey = "stacktrace"
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	encoderConfig.LineEnding = zapcore.DefaultLineEnding
-	encoderConfig.EncodeLevel = zapcore.LowercaseLevelEncoder
+	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	encoderConfig.EncodeDuration = zapcore.SecondsDurationEncoder
-	encoderConfig.EncodeCaller = zapcore.FullCallerEncoder
+	encoderConfig.EncodeCaller = zapcore.ShortCallerEncoder
 	encoderConfig.EncodeName = zapcore.FullNameEncoder
 	return zapcore.NewJSONEncoder(encoderConfig)
 }
@@ -124,7 +124,7 @@ func GinRecovery(logger *zap.Logger, stack bool) gin.HandlerFunc {
 						zap.String("request", string(httpRequest)),
 					)
 				}
-				c.AbortWithStatus(http.StatusInternalServerError)
+				c.AbortWithError(http.StatusInternalServerError, err.(error))
 			}
 		}()
 		c.Next()

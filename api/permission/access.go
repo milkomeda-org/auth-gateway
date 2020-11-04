@@ -5,7 +5,7 @@ package permission
 
 import (
 	"errors"
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/serializer"
 
 	"github.com/gin-gonic/gin"
@@ -16,10 +16,10 @@ func AddAccess(context *gin.Context) serializer.Response {
 	sub, act, obj := context.Request.PostFormValue("sub"),
 		context.Request.PostFormValue("act"),
 		context.Request.PostFormValue("obj")
-	if "" == sub || "" == act || "" == obj {
+	if sub == "" || "" == act || "" == obj {
 		return serializer.ParamErr("", errors.New("缺少参数"))
 	}
-	ok, _ := initializer.Enforcer.AddPolicySafe(sub, act, obj)
+	ok, _ := db.Enforcer.AddPolicySafe(sub, act, obj)
 	return serializer.Success(ok)
 }
 
@@ -28,9 +28,9 @@ func RemoveAccess(context *gin.Context) serializer.Response {
 	sub, act, obj := context.Query("sub"),
 		context.Query("act"),
 		context.Query("obj")
-	if "" == sub || "" == act || "" == obj {
+	if sub == "" || "" == act || "" == obj {
 		return serializer.ParamErr("", errors.New("缺少参数"))
 	}
-	ok, _ := initializer.Enforcer.RemovePolicySafe(sub, act, obj)
+	ok, _ := db.Enforcer.RemovePolicySafe(sub, act, obj)
 	return serializer.Success(ok)
 }

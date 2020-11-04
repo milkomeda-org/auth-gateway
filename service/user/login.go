@@ -1,7 +1,7 @@
-package service
+package user
 
 import (
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model/organization"
 	"oa-auth/serializer"
 	"os"
@@ -13,7 +13,7 @@ import (
 
 // UserLoginService 管理用户登录的服务
 type UserLoginService struct {
-	UserName string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
+	UserName string `form:"username" json:"username" binding:"required,min=1,max=30"`
 	Password string `form:"password" json:"password" binding:"required,min=8,max=40"`
 }
 
@@ -21,16 +21,16 @@ type UserLoginService struct {
 func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	var user organization.User
 
-	if err := initializer.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
+	if err := db.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
 
-	if user.CheckPassword(service.Password) == false {
+	if !user.CheckPassword(service.Password) {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
 	var rs = make(map[int]string, 0)
 	// 查询用户继承的角色和自身角色
-	rows, _ := initializer.DB.Raw(`select b.id id, b.alias alias from position_role_mappings a left join roles b on a.role_id = b.id where a.position_id in (select position_id from users where id = ?)`, user.ID).Rows()
+	rows, _ := db.DB.Raw(`select b.id id, b.alias alias from position_role_mappings a left join roles b on a.role_id = b.id where a.position_id in (select position_id from users where id = ?)`, user.ID).Rows()
 	{
 		defer rows.Close()
 		for rows.Next() {
@@ -59,4 +59,10 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	}
 
 	return serializer.Response{Data: tokenStr}
+}
+
+func Exists(userName string) bool {
+	count := 0
+	db.DB.Model(&organization.User{}).Where("user_name = ?", userName).Count(&count)
+	return count > 0
 }

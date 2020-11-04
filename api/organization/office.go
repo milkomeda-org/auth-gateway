@@ -15,7 +15,6 @@ func OfficeCreate(c *gin.Context) serializer.Response {
 	var os organization.OfficeCreateService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := os.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -40,7 +39,6 @@ func OfficeDelete(c *gin.Context) serializer.Response {
 	var os organization.OfficeDeleteService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.ParamErr("", err)
-
 	}
 	if e := os.Execute(); e != nil {
 		return serializer.Failed(e)

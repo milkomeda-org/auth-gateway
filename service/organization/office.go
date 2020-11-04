@@ -5,7 +5,7 @@ package organization
 
 import (
 	"errors"
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model/organization"
 	serializerorganization "oa-auth/serializer/organization"
 
@@ -26,11 +26,11 @@ func (receiver OfficeCreateService) Execute() error {
 		Type:     receiver.Type,
 	}
 	var count int
-	initializer.DB.Model(&organization.Office{}).Where("id = ?", receiver.ParentID).Count(&count)
+	db.DB.Model(&organization.Office{}).Where("id = ?", receiver.ParentID).Count(&count)
 	if count < 1 {
 		return errors.New("创建失败，上级不存在")
 	}
-	return initializer.DB.Model(&organization.Office{}).Save(&office).Error
+	return db.DB.Model(&organization.Office{}).Save(&office).Error
 }
 
 // OfficeAddService 组织更新服务
@@ -48,7 +48,7 @@ func (receiver OfficeUpdateService) Execute() error {
 		Type:     receiver.Type,
 	}
 	// TODO 检查参数有效性
-	return initializer.DB.Where("id = ?", receiver.ID).Updates(&office).Error
+	return db.DB.Where("id = ?", receiver.ID).Updates(&office).Error
 }
 
 // OfficeAddService 组织删除服务
@@ -57,7 +57,7 @@ type OfficeDeleteService struct {
 }
 
 func (receiver OfficeDeleteService) Execute() error {
-	return initializer.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Office{}).Error
+	return db.DB.Where("id = ?", receiver.ID).Unscoped().Delete(&organization.Office{}).Error
 }
 
 // OfficeViewService 组织查看服务
@@ -66,7 +66,7 @@ type OfficeViewService struct {
 
 func (receiver OfficeViewService) Execute() (interface{}, error) {
 	var result []serializerorganization.OfficeSerializer
-	err := initializer.DB.Table("offices").Find(&result).Error
+	err := db.DB.Table("offices").Find(&result).Error
 	if nil != err {
 		return result, err
 	}

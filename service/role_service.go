@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/model/authorization"
 )
 
@@ -16,7 +16,7 @@ func (r *RoleCreateService) CreateRole(c *gin.Context) bool {
 	role := authorization.Role{
 		Alias: r.Alias,
 	}
-	return nil == initializer.DB.Create(&role).Error
+	return nil == db.DB.Create(&role).Error
 }
 
 // RoleDeleteService 角色删除服务
@@ -26,5 +26,5 @@ type RoleDeleteService struct {
 
 // DeleteRole 删除角色
 func (r *RoleDeleteService) DeleteRole(c *gin.Context) bool {
-	return nil == initializer.DB.Where("id = ?", r.ID).Delete(authorization.Role{}).Error
+	return nil == db.DB.Where("id = ?", r.ID).Delete(authorization.Role{}).Error
 }

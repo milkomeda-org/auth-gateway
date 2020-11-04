@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"fmt"
-	"oa-auth/initializer"
+	"oa-auth/initializer/db"
 	"oa-auth/serializer"
 	"oa-auth/util"
 	"os"
@@ -86,10 +86,15 @@ func ResourceAccess() gin.HandlerFunc {
 		obj := c.Request.URL.Path
 		user, exists := c.Get("user")
 		if exists && nil != user {
-			rs := user.(serializer.UserSession).Roles
-			for k, _ := range rs {
-				sub := strconv.Itoa(k)
-				if ok := initializer.Enforcer.Enforce(sub, act, obj); ok {
+			userSession := user.(serializer.UserSession)
+			rs := userSession.Roles
+			if userSession.UserName == "admin" {
+				c.Next()
+				return
+			}
+			for rid, _ := range rs {
+				sub := strconv.Itoa(rid)
+				if ok := db.Enforcer.Enforce(sub, act, obj); ok {
 					c.Next()
 					return
 				}
