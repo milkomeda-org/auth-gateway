@@ -6,7 +6,7 @@ import (
 
 // User 用户序列化器
 type User struct {
-	ID        uint   `json:"id"`
+	ID        int    `json:"id"`
 	UserName  string `json:"user_name"`
 	Nickname  string `json:"nickname"`
 	Status    int    `json:"status"`
@@ -36,7 +36,7 @@ func BuildUserResponse(user UserSession) Response {
 // UserSession 用户session信息
 type UserSession struct {
 	UserName string         `json:"user_name"`
-	UserID   uint           `json:"user_id"`
+	UserID   int            `json:"user_id"`
 	NickName string         `json:"nick_name"`
 	Avatar   string         `json:"avatar"`
 	Roles    map[int]string `json:"roles"`

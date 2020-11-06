@@ -46,8 +46,8 @@ func getIDFromClaims(key string) (serializer.UserSession, error) {
 			uidF := claims["user_id"]
 			if v, ok := uidF.(float64); ok {
 				uidS := strconv.FormatFloat(v, 'f', -1, 64)
-				if uid, err := strconv.ParseUint(uidS, 0, 64); nil == err {
-					us.UserID = uint(uid)
+				if uid, err := strconv.ParseInt(uidS, 0, 64); nil == err {
+					us.UserID = int(uid)
 				}
 			}
 			rs := claims["roles"].(map[string]interface{})

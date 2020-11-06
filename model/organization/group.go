@@ -15,20 +15,20 @@ type Group struct {
 // GroupUserMapping 用户组关联
 type GroupUserMapping struct {
 	model.BaseModel
-	GroupID uint `gorm:"not null;comment:'组ID'"`
-	UserID  uint `gorm:"not null;comment:'用户ID'"`
+	GroupID int `gorm:"not null;comment:'组ID'"`
+	UserID  int `gorm:"not null;comment:'用户ID'"`
 }
 
 // GroupRoleMapping 组权限关联
 type GroupRoleMapping struct {
 	model.BaseModel
-	GroupID uint `gorm:"not null;comment:'组ID'"`
-	RoleID  uint `gorm:"not null;comment:'角色ID'"`
+	GroupID int `gorm:"not null;comment:'组ID'"`
+	RoleID  int `gorm:"not null;comment:'角色ID'"`
 }
 
 // GroupModuleMapping 组模块关联
 type GroupModuleMapping struct {
 	model.BaseModel
-	GroupID  uint `gorm:"not null;comment:'组ID'"`
-	ModuleID uint `gorm:"not null;comment:'模块ID'"`
+	GroupID  int `gorm:"not null;comment:'组ID'"`
+	ModuleID int `gorm:"not null;comment:'模块ID'"`
 }

@@ -21,7 +21,7 @@ func (r *RoleCreateService) CreateRole(c *gin.Context) bool {
 
 // RoleDeleteService 角色删除服务
 type RoleDeleteService struct {
-	ID uint `form:"id" json:"id" binding:"required"`
+	ID int `form:"id" json:"id" binding:"required"`
 }
 
 // DeleteRole 删除角色

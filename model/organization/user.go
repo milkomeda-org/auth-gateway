@@ -14,21 +14,21 @@ type User struct {
 	PasswordDigest string `gorm:"not null;comment:'密码摘要'"`
 	Nickname       string `gorm:"not null;comment:'昵称'"`
 	Avatar         string `gorm:"size:1000;comment:'头像'"`
-	PositionID     uint   `gorm:"not null;comment:'身份ID'"`
+	PositionID     int    `gorm:"not null;comment:'身份ID'"`
 }
 
 // UserRoleMapping 用户角色关联
 type UserRoleMapping struct {
 	model.BaseModel
-	UserID uint
-	RoleID uint
+	UserID int
+	RoleID int
 }
 
 // UserModuleMapping 用户模块关联
 type UserModuleMapping struct {
 	model.BaseModel
-	UserID   uint
-	ModuleID uint
+	UserID   int
+	ModuleID int
 }
 
 const (

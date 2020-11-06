@@ -11,18 +11,18 @@ import (
 
 type PositionSerializer struct {
 	model.BaseModel
-	ParentID uint                `json:"parent_id"` // 上级ID
-	OfficeID uint                `json:"office_id"` // 组织ID
+	ParentID int                 `json:"parent_id"` // 上级ID
+	OfficeID int                 `json:"office_id"` // 组织ID
 	Name     string              `json:"name"`      // 职位名称
 	Code     string              `json:"code"`      //职位编码
 	Children []gogo.ForkTreeNode `json:"children"`
 }
 
-func (receiver *PositionSerializer) GetID() uint {
+func (receiver *PositionSerializer) GetID() int {
 	return receiver.ID
 }
 
-func (receiver *PositionSerializer) GetPID() uint {
+func (receiver *PositionSerializer) GetPID() int {
 	return receiver.ParentID
 }
 

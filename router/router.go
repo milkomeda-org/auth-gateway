@@ -65,10 +65,13 @@ func NewRouter() *gin.Engine {
 			access.Use(middleware.ResourceAccess())
 			{
 				// 组织管理
-				access.POST("office", restWrapper(organization.OfficeCreate))
-				access.PUT("office", restWrapper(organization.OfficeUpdate))
-				access.DELETE("office", restWrapper(organization.OfficeDelete))
-				access.GET("office", restWrapper(organization.OfficeView))
+				office := access.Group("office")
+				{
+					office.POST("", restWrapper(organization.OfficeCreate))
+					office.PUT("", restWrapper(organization.OfficeUpdate))
+					office.DELETE("", restWrapper(organization.OfficeDelete))
+					office.GET("", restWrapper(organization.OfficeView))
+				}
 				// 职位管理
 				position := access.Group("/position")
 				{
@@ -79,18 +82,24 @@ func NewRouter() *gin.Engine {
 					position.POST("/role", restWrapper(organization.PositionRoleAdd))
 					position.DELETE("/role", restWrapper(organization.PositionRoleRemove))
 				}
-				//// 用户组管理
-				access.POST("group", restWrapper(organization.GroupCreate))
-				access.PUT("group", restWrapper(organization.GroupUpdate))
-				access.DELETE("group", restWrapper(organization.GroupDelete))
-				access.GET("group", restWrapper(organization.GroupView))
+				// 用户组管理
+				group := access.Group("group")
+				{
+					group.POST("", restWrapper(organization.GroupCreate))
+					group.PUT("", restWrapper(organization.GroupUpdate))
+					group.DELETE("", restWrapper(organization.GroupDelete))
+					group.GET("", restWrapper(organization.GroupView))
+				}
 
 				// 用户注册
 				access.POST("user/register", api.UserRegister)
 
 				//角色管理
-				access.POST("role", api.CreateRole)
-				access.DELETE("role", api.DeleteRole)
+				role := access.Group("role")
+				{
+					role.POST("", api.CreateRole)
+					role.DELETE("", api.DeleteRole)
+				}
 
 				//授权管理
 				//x-www sub act obj

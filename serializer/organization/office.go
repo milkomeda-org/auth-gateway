@@ -11,17 +11,17 @@ import (
 
 type OfficeSerializer struct {
 	model.BaseModel
-	ParentID uint                `json:"parent_id"` // 上级ID
+	ParentID int                 `json:"parent_id"` // 上级ID
 	Name     string              `json:"name"`      // 组织名称
-	Type     uint                `json:"type"`      // 组织类型
+	Type     int                 `json:"type"`      // 组织类型
 	Children []gogo.ForkTreeNode `json:"children"`
 }
 
-func (receiver *OfficeSerializer) GetID() uint {
+func (receiver *OfficeSerializer) GetID() int {
 	return receiver.ID
 }
 
-func (receiver *OfficeSerializer) GetPID() uint {
+func (receiver *OfficeSerializer) GetPID() int {
 	return receiver.ParentID
 }
 

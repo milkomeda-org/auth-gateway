@@ -14,9 +14,9 @@ import (
 
 // OfficeCreateService 组织添加服务
 type OfficeCreateService struct {
-	ParentID uint   `form:"parentId" json:"parentId" binding:"required"`
+	ParentID int    `form:"parentId" json:"parentId"`
 	Name     string `form:"name" json:"name" binding:"required"`
-	Type     uint   `form:"type" json:"type" binding:"required"`
+	Type     int    `form:"type" json:"type" binding:"required"`
 }
 
 func (receiver OfficeCreateService) Execute() error {
@@ -25,20 +25,22 @@ func (receiver OfficeCreateService) Execute() error {
 		Name:     receiver.Name,
 		Type:     receiver.Type,
 	}
-	var count int
-	db.DB.Model(&organization.Office{}).Where("id = ?", receiver.ParentID).Count(&count)
-	if count < 1 {
-		return errors.New("创建失败，上级不存在")
+	if 0 != receiver.ParentID {
+		var count int
+		db.DB.Model(&organization.Office{}).Where("id = ?", receiver.ParentID).Count(&count)
+		if count < 1 {
+			return errors.New("创建失败，上级不存在")
+		}
 	}
 	return db.DB.Model(&organization.Office{}).Save(&office).Error
 }
 
 // OfficeAddService 组织更新服务
 type OfficeUpdateService struct {
-	ID       uint   `form:"id" json:"id" binding:"required"`
-	ParentID uint   `form:"parentId" json:"parentId" binding:"required"`
+	ID       int    `form:"id" json:"id" binding:"required"`
+	ParentID int    `form:"parentId" json:"parentId" binding:"required"`
 	Name     string `form:"name" json:"name" binding:"required"`
-	Type     uint   `form:"type" json:"type" binding:"required"`
+	Type     int    `form:"type" json:"type" binding:"required"`
 }
 
 func (receiver OfficeUpdateService) Execute() error {
@@ -53,7 +55,7 @@ func (receiver OfficeUpdateService) Execute() error {
 
 // OfficeAddService 组织删除服务
 type OfficeDeleteService struct {
-	ID uint `form:"id" json:"id" binding:"required"`
+	ID int `form:"id" json:"id" binding:"required"`
 }
 
 func (receiver OfficeDeleteService) Execute() error {
@@ -70,7 +72,9 @@ func (receiver OfficeViewService) Execute() (interface{}, error) {
 	if nil != err {
 		return result, err
 	}
-	var se []gogo.ForkTreeNode
+	var (
+		se []gogo.ForkTreeNode
+	)
 	for _, v := range result {
 		temp := v
 		se = append(se, &temp)

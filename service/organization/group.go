@@ -26,7 +26,7 @@ func (receiver GroupCreateService) Execute() error {
 
 // GroupAddService 用户组更新服务
 type GroupUpdateService struct {
-	ID   uint   `form:"id" json:"id" binding:"required"`
+	ID   int    `form:"id" json:"id" binding:"required"`
 	Name string `form:"name" json:"name" binding:"required"`
 	Code string `form:"code" json:"code" binding:"required"`
 }
@@ -42,7 +42,7 @@ func (receiver GroupUpdateService) Execute() error {
 
 // GroupAddService 用户组删除服务
 type GroupDeleteService struct {
-	ID uint `form:"id" json:"id" binding:"required"`
+	ID int `form:"id" json:"id" binding:"required"`
 }
 
 func (receiver GroupDeleteService) Execute() error {

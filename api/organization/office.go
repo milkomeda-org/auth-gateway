@@ -4,6 +4,7 @@
 package organization
 
 import (
+	"oa-auth/api"
 	"oa-auth/serializer"
 	"oa-auth/service/organization"
 
@@ -14,7 +15,7 @@ import (
 func OfficeCreate(c *gin.Context) serializer.Response {
 	var os organization.OfficeCreateService
 	if err := c.ShouldBind(&os); err != nil {
-		return serializer.ParamErr("", err)
+		return api.ErrorResponse(err)
 	}
 	if e := os.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -26,7 +27,7 @@ func OfficeCreate(c *gin.Context) serializer.Response {
 func OfficeUpdate(c *gin.Context) serializer.Response {
 	var os organization.OfficeUpdateService
 	if err := c.ShouldBind(&os); err != nil {
-		return serializer.ParamErr("", err)
+		return api.ErrorResponse(err)
 	}
 	if e := os.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -38,7 +39,7 @@ func OfficeUpdate(c *gin.Context) serializer.Response {
 func OfficeDelete(c *gin.Context) serializer.Response {
 	var os organization.OfficeDeleteService
 	if err := c.ShouldBind(&os); err != nil {
-		return serializer.ParamErr("", err)
+		return api.ErrorResponse(err)
 	}
 	if e := os.Execute(); e != nil {
 		return serializer.Failed(e)
@@ -49,9 +50,9 @@ func OfficeDelete(c *gin.Context) serializer.Response {
 // OfficeView 查看组织
 func OfficeView(c *gin.Context) serializer.Response {
 	var os organization.OfficeViewService
-	if v, err := os.Execute(); nil != err {
-		return serializer.Failed(err)
-	} else {
-		return serializer.Success(v)
+	v, err := os.Execute()
+	if nil != err {
+		return api.ErrorResponse(err)
 	}
+	return serializer.Success(v)
 }

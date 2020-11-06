@@ -15,8 +15,8 @@ import (
 
 // PositionCreateService 职位添加服务
 type PositionCreateService struct {
-	ParentID uint   `form:"parentId" json:"parentId" binding:"required"`
-	OfficeID uint   `form:"officeId" json:"officeId" binding:"required"`
+	ParentID int    `form:"parentId" json:"parentId" binding:"required"`
+	OfficeID int    `form:"officeId" json:"officeId" binding:"required"`
 	Name     string `form:"name" json:"name" binding:"required"`
 	Code     string `form:"code" json:"code" binding:"required"`
 }
@@ -43,9 +43,9 @@ func (receiver PositionCreateService) Execute() error {
 
 // PositionAddService 职位更新服务
 type PositionUpdateService struct {
-	ID       uint   `form:"id" json:"id" binding:"required"`
-	ParentID uint   `form:"parentId" json:"parentId" binding:"required"`
-	OfficeID uint   `form:"officeId" json:"officeId" binding:"required"`
+	ID       int    `form:"id" json:"id" binding:"required"`
+	ParentID int    `form:"parentId" json:"parentId" binding:"required"`
+	OfficeID int    `form:"officeId" json:"officeId" binding:"required"`
 	Name     string `form:"name" json:"name" binding:"required"`
 	Code     string `form:"code" json:"code" binding:"required"`
 }
@@ -59,7 +59,7 @@ func (receiver PositionUpdateService) Execute() error {
 
 // PositionAddService 职位删除服务
 type PositionDeleteService struct {
-	ID uint `form:"id" json:"id" binding:"required"`
+	ID int `form:"id" json:"id" binding:"required"`
 }
 
 func (receiver PositionDeleteService) Execute() error {
@@ -68,7 +68,7 @@ func (receiver PositionDeleteService) Execute() error {
 
 // PositionViewService 职位查看服务
 type PositionViewService struct {
-	OfficeID uint `form:"officeId" json:"officeId" binding:"required"`
+	OfficeID int `form:"officeId" json:"officeId" binding:"required"`
 }
 
 func (receiver PositionViewService) Execute() (interface{}, error) {
@@ -88,8 +88,8 @@ func (receiver PositionViewService) Execute() (interface{}, error) {
 
 // PositionRoleMappingAddService 职位角色添加服务
 type PositionRoleMappingAddService struct {
-	PositionID uint `form:"positionId" json:"positionId" binding:"required"`
-	RoleID     uint `form:"roleId" json:"roleId" binding:"required"`
+	PositionID int `form:"positionId" json:"positionId" binding:"required"`
+	RoleID     int `form:"roleId" json:"roleId" binding:"required"`
 }
 
 func (receiver PositionRoleMappingAddService) Execute() error {
@@ -112,7 +112,7 @@ func (receiver PositionRoleMappingAddService) Execute() error {
 
 // PositionRoleMappingRemoveService 职位角色删除服务
 type PositionRoleMappingRemoveService struct {
-	ID uint `form:"id" json:"id" binding:"required"`
+	ID int `form:"id" json:"id" binding:"required"`
 }
 
 func (receiver PositionRoleMappingRemoveService) Execute() error {
