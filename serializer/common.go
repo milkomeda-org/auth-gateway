@@ -1,6 +1,12 @@
 package serializer
 
-import "github.com/gin-gonic/gin"
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"oa-auth/configs"
+)
 
 // Response 基础序列化器
 type Response struct {
@@ -91,4 +97,23 @@ func Failed(err error) Response {
 		Error: err.Error(),
 	}
 	return res
+}
+
+// I18Error 返回错误消息
+func I18Error(err error) Response {
+	if ve, ok := err.(validator.ValidationErrors); ok {
+		for _, e := range ve {
+			field := configs.T(fmt.Sprintf("Field.%s", e.Field))
+			tag := configs.T(fmt.Sprintf("Tag.Valid.%s", e.Tag))
+			return ParamErr(
+				fmt.Sprintf("%s%s", field, tag),
+				err,
+			)
+		}
+	}
+	if _, ok := err.(*json.UnmarshalTypeError); ok {
+		return ParamErr("JSON类型不匹配", err)
+	}
+
+	return ParamErr("参数错误", err)
 }

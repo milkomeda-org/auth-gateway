@@ -2,7 +2,7 @@ package user
 
 import (
 	"oa-auth/initializer/db"
-	"oa-auth/model/organization"
+	"oa-auth/model/user"
 	"oa-auth/serializer"
 )
 
@@ -24,7 +24,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count := 0
-	db.DB.Model(&organization.User{}).Where("nickname = ?", service.Nickname).Count(&count)
+	db.DB.Model(&user.User{}).Where("nickname = ?", service.Nickname).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -33,7 +33,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count = 0
-	db.DB.Model(&organization.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	db.DB.Model(&user.User{}).Where("user_name = ?", service.UserName).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -46,7 +46,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 
 // Register 用户注册
 func (service *UserRegisterService) Register() serializer.Response {
-	user := organization.User{
+	user := user.User{
 		Nickname: service.Nickname,
 		UserName: service.UserName,
 	}

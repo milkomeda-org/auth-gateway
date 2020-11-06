@@ -3,8 +3,13 @@ package router
 import (
 	"errors"
 	"oa-auth/api"
-	"oa-auth/api/organization"
-	"oa-auth/api/permission"
+	access2 "oa-auth/api/access"
+	group2 "oa-auth/api/group"
+	office2 "oa-auth/api/office"
+	position2 "oa-auth/api/position"
+	aProxy "oa-auth/api/proxy"
+	role2 "oa-auth/api/role"
+	user2 "oa-auth/api/user"
 	"oa-auth/cache"
 	"oa-auth/initializer/db"
 	"oa-auth/middleware"
@@ -45,10 +50,10 @@ func NewRouter() *gin.Engine {
 		v1.POST("ping", api.Ping)
 
 		// 用户登录
-		v1.POST("user/login", api.UserLogin)
+		v1.POST("user/login", user2.Login)
 
 		//路由添加
-		v1.POST("proxy/router/register", api.RegisterRouter)
+		v1.POST("proxy/register", aProxy.RegisterProxy)
 
 		// 需要登录保护的
 		auth := v1.Group("")
@@ -57,8 +62,8 @@ func NewRouter() *gin.Engine {
 			// Auth Routes
 
 			user := auth.Group("user")
-			user.GET("me", api.UserMe)
-			user.DELETE("logout", api.UserLogout)
+			user.GET("me", user2.Me)
+			user.DELETE("logout", user2.Logout)
 
 			//需要角色权限的
 			access := auth.Group("")
@@ -67,45 +72,45 @@ func NewRouter() *gin.Engine {
 				// 组织管理
 				office := access.Group("office")
 				{
-					office.POST("", restWrapper(organization.OfficeCreate))
-					office.PUT("", restWrapper(organization.OfficeUpdate))
-					office.DELETE("", restWrapper(organization.OfficeDelete))
-					office.GET("", restWrapper(organization.OfficeView))
+					office.POST("", restWrapper(office2.Create))
+					office.PUT("", restWrapper(office2.Update))
+					office.DELETE("", restWrapper(office2.Delete))
+					office.GET("", restWrapper(office2.View))
 				}
 				// 职位管理
 				position := access.Group("/position")
 				{
-					position.POST("", restWrapper(organization.PositionCreate))
-					position.PUT("", restWrapper(organization.PositionUpdate))
-					position.DELETE("", restWrapper(organization.PositionDelete))
-					position.GET("", restWrapper(organization.PositionView))
-					position.POST("/role", restWrapper(organization.PositionRoleAdd))
-					position.DELETE("/role", restWrapper(organization.PositionRoleRemove))
+					position.POST("", restWrapper(position2.Create))
+					position.PUT("", restWrapper(position2.Update))
+					position.DELETE("", restWrapper(position2.Delete))
+					position.GET("", restWrapper(position2.View))
+					position.POST("/role", restWrapper(position2.RoleAdd))
+					position.DELETE("/role", restWrapper(position2.RoleRemove))
 				}
 				// 用户组管理
 				group := access.Group("group")
 				{
-					group.POST("", restWrapper(organization.GroupCreate))
-					group.PUT("", restWrapper(organization.GroupUpdate))
-					group.DELETE("", restWrapper(organization.GroupDelete))
-					group.GET("", restWrapper(organization.GroupView))
+					group.POST("", restWrapper(group2.Create))
+					group.PUT("", restWrapper(group2.Update))
+					group.DELETE("", restWrapper(group2.Delete))
+					group.GET("", restWrapper(group2.View))
 				}
 
 				// 用户注册
-				access.POST("user/register", api.UserRegister)
+				access.POST("user/register", user2.Register)
 
 				//角色管理
 				role := access.Group("role")
 				{
-					role.POST("", api.CreateRole)
-					role.DELETE("", api.DeleteRole)
+					role.POST("", role2.Create)
+					role.DELETE("", role2.Delete)
 				}
 
 				//授权管理
 				//x-www sub act obj
-				access.POST("permission", restWrapper(permission.AddAccess))
+				access.POST("permission", restWrapper(access2.Add))
 				// query sub act obj
-				access.DELETE("permission", restWrapper(permission.RemoveAccess))
+				access.DELETE("permission", restWrapper(access2.Remove))
 			}
 		}
 
@@ -115,14 +120,14 @@ func NewRouter() *gin.Engine {
 		appProxy.Use(middleware.ResourceAccess())
 		{
 			// 人员信息表
-			var rs []resource.Router
-			db.DB.Model(resource.Router{}).Find(&rs)
+			var rs []resource.Proxy
+			db.DB.Model(resource.Proxy{}).Find(&rs)
 			if nil != rs {
 				for _, v := range rs {
 					appProxy.Handle(v.Method, v.Path, proxy.HostProxy)
 				}
 			}
-			cache.AppProxyRouter = appProxy
+			cache.AppProxy = appProxy
 		}
 	}
 	return r

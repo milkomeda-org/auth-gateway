@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"oa-auth/initializer/db"
 	"oa-auth/serializer"
+	jwt2 "oa-auth/serializer/jwt"
+	u2 "oa-auth/serializer/user"
 	"oa-auth/util"
 	"os"
 	"strconv"
@@ -13,7 +15,7 @@ import (
 )
 
 // CurrentUser 获取当前用户
-func CurrentUser(c *gin.Context) *serializer.UserSession {
+func CurrentUser(c *gin.Context) *u2.UserSession {
 	if user, err := getIDFromClaims(c.GetHeader("Authorization")); nil == err {
 		return &user
 	} else {
@@ -23,7 +25,7 @@ func CurrentUser(c *gin.Context) *serializer.UserSession {
 	}
 }
 
-func getIDFromClaims(key string) (serializer.UserSession, error) {
+func getIDFromClaims(key string) (u2.UserSession, error) {
 	token, err := jwt.Parse(key, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -35,11 +37,11 @@ func getIDFromClaims(key string) (serializer.UserSession, error) {
 	})
 	if nil != err {
 		util.Error("Get user from jwt error: %v", err)
-		return serializer.UserSession{}, err
+		return u2.UserSession{}, err
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if nil != claims && serializer.IsLegal(claims) {
-			var us = serializer.UserSession{}
+		if nil != claims && jwt2.IsLegal(claims) {
+			var us = u2.UserSession{}
 			us.UserName = claims["user_name"].(string)
 			us.Avatar = claims["avatar"].(string)
 			us.NickName = claims["nick_name"].(string)
@@ -63,7 +65,7 @@ func getIDFromClaims(key string) (serializer.UserSession, error) {
 			return us, nil
 		}
 	}
-	return serializer.UserSession{}, nil
+	return u2.UserSession{}, nil
 }
 
 // AuthRequired 需要登录
@@ -86,7 +88,7 @@ func ResourceAccess() gin.HandlerFunc {
 		obj := c.Request.URL.Path
 		user, exists := c.Get("user")
 		if exists && nil != user {
-			userSession := user.(serializer.UserSession)
+			userSession := user.(u2.UserSession)
 			rs := userSession.Roles
 			if userSession.UserName == "admin" {
 				c.Next()

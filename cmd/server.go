@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"oa-auth/initializer"
 	"oa-auth/initializer/db"
+	"oa-auth/initializer/log"
+	"oa-auth/initializer/sys"
 	"oa-auth/router"
 	"os"
 
@@ -18,11 +19,11 @@ func init() {
 
 func main() {
 	//组件初始化
-	initializer.InitLogger()
+	log.InitLogger()
 	db.InitDB()
 	//tools.Migration()
 	//系统初始化
-	initializer.InitSystem()
+	sys.InitSystem()
 	// 装载路由
 	r := router.NewRouter()
 	_ = r.Run(os.Getenv("SERVER_HOST"))

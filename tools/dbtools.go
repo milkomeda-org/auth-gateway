@@ -5,32 +5,35 @@ package tools
 
 import (
 	"oa-auth/initializer/db"
-	"oa-auth/model/authorization"
-	"oa-auth/model/organization"
+	"oa-auth/model/group"
+	"oa-auth/model/office"
+	"oa-auth/model/position"
 	"oa-auth/model/resource"
+	"oa-auth/model/role"
+	"oa-auth/model/user"
 )
 
 // Migration 自动建表
 func Migration() {
 	// 自动迁移模式
 	db.DB.AutoMigrate(
-		&organization.Office{},
-		&organization.OfficeModuleMapping{},
-		&organization.OfficeRoleMapping{},
-		&organization.Position{},
-		&organization.PositionModuleMapping{},
-		&organization.PositionRoleMapping{},
-		&organization.Group{},
-		&organization.GroupModuleMapping{},
-		&organization.GroupRoleMapping{},
-		&organization.GroupUserMapping{},
-		&authorization.Role{},
-		&authorization.RoleModuleMapping{},
-		&authorization.RoleRouterMapping{},
+		&office.Office{},
+		&office.OfficeModuleMapping{},
+		&office.OfficeRoleMapping{},
+		&position.Position{},
+		&position.PositionModuleMapping{},
+		&position.PositionRoleMapping{},
+		&group.Group{},
+		&group.GroupModuleMapping{},
+		&group.GroupRoleMapping{},
+		&group.GroupUserMapping{},
+		&role.Role{},
+		&role.RoleModuleMapping{},
+		&role.RoleRouterMapping{},
 		&resource.Module{},
 		&resource.Router{},
-		&organization.User{},
-		&organization.UserModuleMapping{},
-		&organization.UserRoleMapping{},
+		&user.User{},
+		&user.UserModuleMapping{},
+		&user.UserRoleMapping{},
 	)
 }

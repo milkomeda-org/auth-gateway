@@ -2,7 +2,7 @@ package user
 
 import (
 	"oa-auth/initializer/db"
-	"oa-auth/model/organization"
+	user2 "oa-auth/model/user"
 	"oa-auth/serializer"
 	"os"
 	"time"
@@ -19,7 +19,7 @@ type UserLoginService struct {
 
 // Login 用户登录函数
 func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
-	var user organization.User
+	var user user2.User
 
 	if err := db.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		return serializer.ParamErr("账号或密码错误", nil)
@@ -63,6 +63,6 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 
 func Exists(userName string) bool {
 	count := 0
-	db.DB.Model(&organization.User{}).Where("user_name = ?", userName).Count(&count)
+	db.DB.Model(&user2.User{}).Where("user_name = ?", userName).Count(&count)
 	return count > 0
 }

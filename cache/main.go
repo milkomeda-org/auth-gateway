@@ -32,5 +32,5 @@ func Redis() {
 	RedisClient = client
 }
 
-// AppProxyRouter 代理路由缓存
-var AppProxyRouter *gin.RouterGroup
+// AppProxy 代理缓存
+var AppProxy *gin.RouterGroup
