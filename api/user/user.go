@@ -11,7 +11,7 @@ import (
 
 // Register 用户注册接口
 func Register(c *gin.Context) {
-	var us user.UserRegisterService
+	var us user.RegisterService
 	if err := c.ShouldBind(&us); err == nil {
 		res := us.Register()
 		c.JSON(200, res)
@@ -29,7 +29,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	var us user.UserLoginService
+	var us user.LoginService
 	if err := c.ShouldBind(&us); err == nil {
 		res := us.Login(c)
 		c.JSON(200, res)
@@ -56,4 +56,124 @@ func Logout(c *gin.Context) {
 		Code: 0,
 		Msg:  "登出成功",
 	})
+}
+
+// RoleAdd 添加角色
+func RoleAdd(c *gin.Context) serializer.Response {
+	var os user.RoleService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Add(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// RoleRemove 移除角色
+func RoleRemove(c *gin.Context) serializer.Response {
+	var os user.RoleService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Remove(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// ModuleAdd 添加模块
+func ModuleAdd(c *gin.Context) serializer.Response {
+	var os user.ModuleService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Add(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// ModuleRemove 移除模块
+func ModuleRemove(c *gin.Context) serializer.Response {
+	var os user.ModuleService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Remove(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// GroupAdd 添加组
+func GroupAdd(c *gin.Context) serializer.Response {
+	var os user.GroupService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Add(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// GroupRemove 移除组
+func GroupRemove(c *gin.Context) serializer.Response {
+	var os user.GroupService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Remove(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// OfficeAdd 添加组织
+func OfficeAdd(c *gin.Context) serializer.Response {
+	var os user.OfficeService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Add(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// OfficeRemove 移除组织
+func OfficeRemove(c *gin.Context) serializer.Response {
+	var os user.OfficeService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Remove(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// PositionAdd 添加职位
+func PositionAdd(c *gin.Context) serializer.Response {
+	var os user.PositionService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Add(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
+}
+
+// PositionRemove 移除职位
+func PositionRemove(c *gin.Context) serializer.Response {
+	var os user.PositionService
+	if err := c.ShouldBind(&os); err != nil {
+		return serializer.I18Error(err)
+	}
+	if e := os.Remove(); e != nil {
+		return serializer.Failed(e)
+	}
+	return serializer.Success(true)
 }

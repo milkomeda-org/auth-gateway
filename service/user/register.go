@@ -2,12 +2,12 @@ package user
 
 import (
 	"oa-auth/initializer/db"
-	"oa-auth/model/user"
+	"oa-auth/model"
 	"oa-auth/serializer"
 )
 
-// UserRegisterService 管理用户注册服务
-type UserRegisterService struct {
+// RegisterService 管理用户注册服务
+type RegisterService struct {
 	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
 	UserName        string `form:"user_name" json:"user_name" binding:"required,min=1,max=30"`
 	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
@@ -15,7 +15,7 @@ type UserRegisterService struct {
 }
 
 // valid 验证表单
-func (service *UserRegisterService) valid() *serializer.Response {
+func (service *RegisterService) valid() *serializer.Response {
 	if service.PasswordConfirm != service.Password {
 		return &serializer.Response{
 			Code: 40001,
@@ -24,7 +24,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count := 0
-	db.DB.Model(&user.User{}).Where("nickname = ?", service.Nickname).Count(&count)
+	db.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -33,7 +33,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count = 0
-	db.DB.Model(&user.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	db.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -45,8 +45,8 @@ func (service *UserRegisterService) valid() *serializer.Response {
 }
 
 // Register 用户注册
-func (service *UserRegisterService) Register() serializer.Response {
-	user := user.User{
+func (service *RegisterService) Register() serializer.Response {
+	user := model.User{
 		Nickname: service.Nickname,
 		UserName: service.UserName,
 	}

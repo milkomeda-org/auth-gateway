@@ -2,7 +2,7 @@ package proxy
 
 import (
 	"oa-auth/initializer/db"
-	"oa-auth/model/resource"
+	"oa-auth/model"
 	"oa-auth/serializer"
 )
 
@@ -15,7 +15,7 @@ type RegisterService struct {
 // valid 验证表单
 func (service *RegisterService) valid() *serializer.Response {
 	count := 0
-	db.DB.Model(&resource.Proxy{}).Where("path = ? and method = ?", service.Path, service.Method).Count(&count)
+	db.DB.Model(&model.Proxy{}).Where("path = ? and method = ?", service.Path, service.Method).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
@@ -33,7 +33,7 @@ func (service RegisterService) Register() serializer.Response {
 		return *err
 	}
 
-	proxy := resource.Proxy{
+	proxy := model.Proxy{
 		Path:   service.Path,
 		Method: service.Method,
 	}

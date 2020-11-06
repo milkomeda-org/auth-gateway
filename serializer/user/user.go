@@ -1,7 +1,7 @@
 package user
 
 import (
-	"oa-auth/model/user"
+	"oa-auth/model"
 	"oa-auth/serializer"
 )
 
@@ -16,7 +16,7 @@ type User struct {
 }
 
 // BuildUser 序列化用户
-func BuildUser(user user.User) User {
+func BuildUser(user model.User) User {
 	return User{
 		ID:        user.ID,
 		UserName:  user.UserName,

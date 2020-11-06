@@ -14,7 +14,7 @@ func InitSystem() {
 
 func initRootUser() {
 	if !user.Exists("admin") {
-		var us user.UserRegisterService
+		var us user.RegisterService
 		us.UserName = "admin"
 		us.Nickname = "admin"
 		us.Password = "P@ssW0rd"

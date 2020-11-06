@@ -2,7 +2,7 @@ package user
 
 import (
 	"oa-auth/initializer/db"
-	user2 "oa-auth/model/user"
+	"oa-auth/model"
 	"oa-auth/serializer"
 	"os"
 	"time"
@@ -11,15 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UserLoginService 管理用户登录的服务
-type UserLoginService struct {
+// LoginService 管理用户登录的服务
+type LoginService struct {
 	UserName string `form:"username" json:"username" binding:"required,min=1,max=30"`
 	Password string `form:"password" json:"password" binding:"required,min=8,max=40"`
 }
 
 // Login 用户登录函数
-func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
-	var user user2.User
+func (service *LoginService) Login(c *gin.Context) serializer.Response {
+	var user model.User
 
 	if err := db.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		return serializer.ParamErr("账号或密码错误", nil)
@@ -29,8 +29,8 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
 	var rs = make(map[int]string, 0)
-	// 查询用户继承的角色和自身角色
-	rows, _ := db.DB.Raw(`select b.id id, b.alias alias from position_role_mappings a left join roles b on a.role_id = b.id where a.position_id in (select position_id from users where id = ?)`, user.ID).Rows()
+	//TODO 未完成获取用户所有关联的角色
+	rows, _ := db.DB.Raw(`select b.id id, b.alias alias from position_role a left join roles b on a.role_id = b.id where a.position_id in (select position_id from users where id = ?)`, user.ID).Rows()
 	{
 		defer rows.Close()
 		for rows.Next() {
@@ -63,6 +63,6 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 
 func Exists(userName string) bool {
 	count := 0
-	db.DB.Model(&user2.User{}).Where("user_name = ?", userName).Count(&count)
+	db.DB.Model(&model.User{}).Where("user_name = ?", userName).Count(&count)
 	return count > 0
 }

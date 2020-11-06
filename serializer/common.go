@@ -103,8 +103,8 @@ func Failed(err error) Response {
 func I18Error(err error) Response {
 	if ve, ok := err.(validator.ValidationErrors); ok {
 		for _, e := range ve {
-			field := configs.T(fmt.Sprintf("Field.%s", e.Field))
-			tag := configs.T(fmt.Sprintf("Tag.Valid.%s", e.Tag))
+			field := configs.T(fmt.Sprintf("Field.%s", e.Field()))
+			tag := configs.T(fmt.Sprintf("Tag.Valid.%s", e.Tag()))
 			return ParamErr(
 				fmt.Sprintf("%s%s", field, tag),
 				err,
