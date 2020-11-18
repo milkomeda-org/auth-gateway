@@ -28,14 +28,14 @@ func BuildUser(user model.User) User {
 }
 
 // BuildUserResponse 序列化用户响应
-func BuildUserResponse(user UserSession) serializer.Response {
-	return serializer.Response{
+func BuildUserResponse(user Session) *serializer.Response {
+	return &serializer.Response{
 		Data: user,
 	}
 }
 
 // UserSession 用户session信息
-type UserSession struct {
+type Session struct {
 	UserName string         `json:"user_name"`
 	UserID   int            `json:"user_id"`
 	NickName string         `json:"nick_name"`

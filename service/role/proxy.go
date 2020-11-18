@@ -12,13 +12,13 @@ import (
 	"sync"
 )
 
-// ModuleService 角色模块服务
-type ModuleService struct {
-	RoleID   int `form:"roleId" json:"roleId" binding:"required"`
-	ModuleID int `form:"moduleId" json:"moduleId" binding:"required"`
+// ProxyService 角色模块服务
+type ProxyService struct {
+	RoleID  int `form:"roleId" json:"roleId" binding:"required"`
+	ProxyID int `form:"proxyId" json:"proxyId" binding:"required"`
 }
 
-func (receiver *ModuleService) Add() (err error) {
+func (receiver *ProxyService) Add() (err error) {
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 	go func() {
@@ -31,9 +31,9 @@ func (receiver *ModuleService) Add() (err error) {
 	}()
 	go func() {
 		var count int
-		db.DB.Model(&model.Module{}).Where("id = ?", receiver.ModuleID).Count(&count)
+		db.DB.Model(&model.Proxy{}).Where("id = ?", receiver.ProxyID).Count(&count)
 		if count < 1 {
-			err = errors.New("创建失败，模块不存在")
+			err = errors.New("创建失败，代理不存在")
 		}
 		wg.Done()
 	}()
@@ -41,9 +41,9 @@ func (receiver *ModuleService) Add() (err error) {
 	if nil != err {
 		return err
 	}
-	return rrt.Add(receiver.RoleID, rrt2.RoleModule, receiver.ModuleID)
+	return rrt.Add(receiver.RoleID, rrt2.RoleProxy, receiver.ProxyID)
 }
 
-func (receiver *ModuleService) Remove() error {
-	return rrt.Remove(receiver.RoleID, rrt2.RoleModule, receiver.ModuleID)
+func (receiver *ProxyService) Remove() error {
+	return rrt.Remove(receiver.RoleID, rrt2.RoleProxy, receiver.ProxyID)
 }

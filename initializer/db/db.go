@@ -2,7 +2,7 @@ package db
 
 import (
 	"oa-auth/configs"
-	"oa-auth/util"
+	"oa-auth/util/log"
 	"os"
 	"time"
 
@@ -19,7 +19,7 @@ import (
 func InitDB() {
 	// 读取翻译文件
 	if err := configs.LoadLocales(os.Getenv("I18N_MAPPINGS_PATH")); err != nil {
-		util.Panic("翻译文件加载失败", err)
+		log.Panic("翻译文件加载失败", err)
 	}
 
 	// 连接数据库
@@ -37,7 +37,7 @@ func Database(connString string) {
 	db, err := gorm.Open(os.Getenv("XORM_DRIVER_NAME"), connString)
 	// Error
 	if err != nil {
-		util.Panic("连接数据库不成功", err)
+		log.Panic("连接数据库不成功", err)
 	}
 	db.LogMode(true)
 	//设置连接池
@@ -60,7 +60,7 @@ var Enforcer *casbin.Enforcer
 func CasbinLoader(connString string) {
 	defer func() {
 		if recover() != nil {
-			util.Panic("连接数据库错误: %s", connString)
+			log.Panic("连接数据库错误: %s", connString)
 			return
 		}
 	}()

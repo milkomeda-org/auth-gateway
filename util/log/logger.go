@@ -1,4 +1,4 @@
-package util
+package log
 
 import (
 	"github.com/gin-gonic/gin"
@@ -36,7 +36,7 @@ func getEncoder() zapcore.Encoder {
 	encoderConfig := zap.NewProductionEncoderConfig()
 	encoderConfig.TimeKey = "time"
 	encoderConfig.LevelKey = "level"
-	encoderConfig.NameKey = "logger"
+	encoderConfig.NameKey = "log"
 	encoderConfig.MessageKey = "msg"
 	encoderConfig.StacktraceKey = "stacktrace"
 	encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
@@ -124,7 +124,7 @@ func GinRecovery(logger *zap.Logger, stack bool) gin.HandlerFunc {
 						zap.String("request", string(httpRequest)),
 					)
 				}
-				c.AbortWithError(http.StatusInternalServerError, err.(error))
+				_ = c.AbortWithError(http.StatusInternalServerError, err.(error))
 			}
 		}()
 		c.Next()

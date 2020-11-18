@@ -56,7 +56,7 @@ func NoAccess() Response {
 }
 
 // Err 通用错误处理
-func Err(code int, msg string, err error) Response {
+func Err(code int, msg string, err error) *Response {
 	res := Response{
 		Code: code,
 	}
@@ -68,39 +68,39 @@ func Err(code int, msg string, err error) Response {
 	if err != nil && gin.Mode() != gin.ReleaseMode {
 		res.Error = err.Error()
 	}
-	return res
+	return &res
 }
 
 // ParamErr 参数错误
-func ParamErr(msg string, err error) Response {
-	if "" == msg {
+func ParamErr(msg string, err error) *Response {
+	if msg == "" {
 		msg = "参数错误"
 	}
 	return Err(401, msg, err)
 }
 
 // Success 处理成功
-func Success(data interface{}) Response {
+func Success(data interface{}) *Response {
 	res := Response{
 		Code: 0,
 		Msg:  "操作成功",
 		Data: data,
 	}
-	return res
+	return &res
 }
 
 // Failed 处理失败
-func Failed(err error) Response {
+func Failed(err error) *Response {
 	res := Response{
 		Code:  -1,
 		Msg:   "操作失败",
 		Error: err.Error(),
 	}
-	return res
+	return &res
 }
 
 // I18Error 返回错误消息
-func I18Error(err error) Response {
+func I18Error(err error) *Response {
 	if ve, ok := err.(validator.ValidationErrors); ok {
 		for _, e := range ve {
 			field := configs.T(fmt.Sprintf("Field.%s", e.Field()))

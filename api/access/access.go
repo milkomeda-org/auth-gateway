@@ -12,7 +12,7 @@ import (
 )
 
 // Add 添加访问控制
-func Add(context *gin.Context) serializer.Response {
+func Add(context *gin.Context) *serializer.Response {
 	sub, act, obj := context.Request.PostFormValue("sub"),
 		context.Request.PostFormValue("act"),
 		context.Request.PostFormValue("obj")
@@ -24,7 +24,7 @@ func Add(context *gin.Context) serializer.Response {
 }
 
 // Remove 添加访问控制
-func Remove(context *gin.Context) serializer.Response {
+func Remove(context *gin.Context) *serializer.Response {
 	sub, act, obj := context.Query("sub"),
 		context.Query("act"),
 		context.Query("obj")

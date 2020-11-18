@@ -21,5 +21,6 @@ func Migration() {
 		&model.Module{},
 		&model.Proxy{},
 		&model.User{},
+		&model.UserOauth{},
 	)
 }

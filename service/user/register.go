@@ -45,7 +45,7 @@ func (service *RegisterService) valid() *serializer.Response {
 }
 
 // Register 用户注册
-func (service *RegisterService) Register() serializer.Response {
+func (service *RegisterService) Register() *serializer.Response {
 	user := model.User{
 		Nickname: service.Nickname,
 		UserName: service.UserName,
@@ -53,7 +53,7 @@ func (service *RegisterService) Register() serializer.Response {
 
 	// 表单验证
 	if err := service.valid(); err != nil {
-		return *err
+		return err
 	}
 
 	// 加密密码

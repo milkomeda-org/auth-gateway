@@ -23,7 +23,7 @@ func Register(c *gin.Context) {
 // Login 用户登录接口
 func Login(c *gin.Context) {
 	if u, _ := c.Get("user"); nil != u {
-		c.JSON(400, serializer.Response{
+		c.JSON(400, &serializer.Response{
 			Code: 0,
 			Msg:  "重复登录",
 		})
@@ -41,9 +41,9 @@ func Login(c *gin.Context) {
 // Me 用户详情
 func Me(c *gin.Context) {
 	u, exists := c.Get("user")
-	var res serializer.Response
+	var res *serializer.Response
 	if exists {
-		res = user2.BuildUserResponse(u.(user2.UserSession))
+		res = user2.BuildUserResponse(u.(user2.Session))
 	} else {
 		user2.BuildUserResponse(*middleware.CurrentUser(c))
 	}
@@ -59,7 +59,7 @@ func Logout(c *gin.Context) {
 }
 
 // RoleAdd 添加角色
-func RoleAdd(c *gin.Context) serializer.Response {
+func RoleAdd(c *gin.Context) *serializer.Response {
 	var os user.RoleService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -71,7 +71,7 @@ func RoleAdd(c *gin.Context) serializer.Response {
 }
 
 // RoleRemove 移除角色
-func RoleRemove(c *gin.Context) serializer.Response {
+func RoleRemove(c *gin.Context) *serializer.Response {
 	var os user.RoleService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -82,32 +82,8 @@ func RoleRemove(c *gin.Context) serializer.Response {
 	return serializer.Success(true)
 }
 
-// ModuleAdd 添加模块
-func ModuleAdd(c *gin.Context) serializer.Response {
-	var os user.ModuleService
-	if err := c.ShouldBind(&os); err != nil {
-		return serializer.I18Error(err)
-	}
-	if e := os.Add(); e != nil {
-		return serializer.Failed(e)
-	}
-	return serializer.Success(true)
-}
-
-// ModuleRemove 移除模块
-func ModuleRemove(c *gin.Context) serializer.Response {
-	var os user.ModuleService
-	if err := c.ShouldBind(&os); err != nil {
-		return serializer.I18Error(err)
-	}
-	if e := os.Remove(); e != nil {
-		return serializer.Failed(e)
-	}
-	return serializer.Success(true)
-}
-
 // GroupAdd 添加组
-func GroupAdd(c *gin.Context) serializer.Response {
+func GroupAdd(c *gin.Context) *serializer.Response {
 	var os user.GroupService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -119,7 +95,7 @@ func GroupAdd(c *gin.Context) serializer.Response {
 }
 
 // GroupRemove 移除组
-func GroupRemove(c *gin.Context) serializer.Response {
+func GroupRemove(c *gin.Context) *serializer.Response {
 	var os user.GroupService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -131,7 +107,7 @@ func GroupRemove(c *gin.Context) serializer.Response {
 }
 
 // OfficeAdd 添加组织
-func OfficeAdd(c *gin.Context) serializer.Response {
+func OfficeAdd(c *gin.Context) *serializer.Response {
 	var os user.OfficeService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -143,7 +119,7 @@ func OfficeAdd(c *gin.Context) serializer.Response {
 }
 
 // OfficeRemove 移除组织
-func OfficeRemove(c *gin.Context) serializer.Response {
+func OfficeRemove(c *gin.Context) *serializer.Response {
 	var os user.OfficeService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -155,7 +131,7 @@ func OfficeRemove(c *gin.Context) serializer.Response {
 }
 
 // PositionAdd 添加职位
-func PositionAdd(c *gin.Context) serializer.Response {
+func PositionAdd(c *gin.Context) *serializer.Response {
 	var os user.PositionService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)
@@ -167,7 +143,7 @@ func PositionAdd(c *gin.Context) serializer.Response {
 }
 
 // PositionRemove 移除职位
-func PositionRemove(c *gin.Context) serializer.Response {
+func PositionRemove(c *gin.Context) *serializer.Response {
 	var os user.PositionService
 	if err := c.ShouldBind(&os); err != nil {
 		return serializer.I18Error(err)

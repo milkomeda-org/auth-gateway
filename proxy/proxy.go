@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/http/httputil"
+	"oa-auth/util/log"
 	"strings"
 )
 
@@ -13,6 +14,10 @@ var simpleHostProxy = httputil.ReverseProxy{
 		req.URL.Scheme = "http"
 		req.URL.Host = "localhost:3000"
 		req.Host = "localhost"
+	},
+	ErrorHandler: func(writer http.ResponseWriter, request *http.Request, err error) {
+		log.Error("http: proxy error: %v", err)
+		writer.WriteHeader(http.StatusBadGateway)
 	},
 }
 

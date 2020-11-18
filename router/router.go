@@ -12,24 +12,23 @@ import (
 	role2 "oa-auth/api/role"
 	user2 "oa-auth/api/user"
 	"oa-auth/cache"
-	"oa-auth/initializer/db"
 	"oa-auth/middleware"
-	"oa-auth/model"
 	"oa-auth/proxy"
 	"oa-auth/serializer"
-	"oa-auth/util"
+	sProxy "oa-auth/service/proxy"
+	"oa-auth/util/log"
 
 	"github.com/gin-gonic/gin"
 )
 
-type handlerFunc func(c *gin.Context) serializer.Response
+type handlerFunc func(c *gin.Context) *serializer.Response
 
 // rest包装器
 func restWrapper(execute handlerFunc) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		defer func() {
 			if p := recover(); nil != p {
-				util.Error("panic %s", p)
+				log.Error("panic %s", p)
 				c.JSON(500, serializer.Failed(errors.New("严重错误")))
 			}
 		}()
@@ -40,7 +39,7 @@ func restWrapper(execute handlerFunc) func(c *gin.Context) {
 // NewRouter 路由配置
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	r.Use(util.GinLogger(util.Logger), util.GinRecovery(util.Logger, true))
+	r.Use(log.GinLogger(log.Logger), log.GinRecovery(log.Logger, true))
 
 	// 中间件, 顺序不能改
 	r.Use(middleware.Cors())
@@ -77,10 +76,6 @@ func NewRouter() *gin.Engine {
 					office.PUT("", restWrapper(office2.Update))
 					office.DELETE("", restWrapper(office2.Delete))
 					office.GET("", restWrapper(office2.View))
-					office.POST("role", restWrapper(office2.RoleAdd))
-					office.DELETE("role", restWrapper(office2.RoleRemove))
-					office.POST("module", restWrapper(office2.ModuleAdd))
-					office.DELETE("module", restWrapper(office2.ModuleRemove))
 				}
 				// 职位管理
 				position := access.Group("/position")
@@ -118,6 +113,8 @@ func NewRouter() *gin.Engine {
 					role.GET("", restWrapper(role2.View))
 					role.POST("module", restWrapper(role2.ModuleAdd))
 					role.DELETE("module", restWrapper(role2.ModuleRemove))
+					role.POST("proxy", restWrapper(role2.ProxyAdd))
+					role.DELETE("proxy", restWrapper(role2.ProxyRemove))
 				}
 
 				//模块管理
@@ -139,8 +136,6 @@ func NewRouter() *gin.Engine {
 					account.DELETE("office", restWrapper(user2.OfficeRemove))
 					account.POST("position", restWrapper(user2.PositionAdd))
 					account.DELETE("position", restWrapper(user2.PositionRemove))
-					account.POST("module", restWrapper(user2.ModuleAdd))
-					account.DELETE("module", restWrapper(user2.ModuleRemove))
 				}
 
 				//授权管理
@@ -157,10 +152,8 @@ func NewRouter() *gin.Engine {
 		appProxy.Use(middleware.ResourceAccess())
 		{
 			// 人员信息表
-			var rs []model.Proxy
-			db.DB.Model(model.Proxy{}).Find(&rs)
-			if nil != rs {
-				for _, v := range rs {
+			if rs := sProxy.List(); nil != rs {
+				for _, v := range *rs {
 					appProxy.Handle(v.Method, v.Path, proxy.HostProxy)
 				}
 			}

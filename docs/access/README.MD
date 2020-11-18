@@ -1,12 +1,26 @@
-# 权限划分
+# 权限节点
 - office - 组织
-- group - 用户组
+- group - 组
 - position - 职位
 - role - 角色
 - user - 用户
+- module - 模块
 
-组织和职位可以有所属关系，用户组可以包含用户
+1.
+office -> position -> role
+group -> role
+user -> role
 
-权限校验只会通过角色-资源来校验，并且只有职位和用户可以拥有角色
+2.
+position -> user
+group -> user
+
+3.
+role <- user
+
+4.
+role -> module
+role -> path
+role -> action
 
 

@@ -15,15 +15,28 @@ type User struct {
 	PositionID     int    `gorm:"not null;comment:'身份ID'"`
 }
 
+type OAuthPlatform int
+
+const (
+	WeChat OAuthPlatform = iota
+)
+
+type UserOauth struct {
+	BaseModel
+	UserID  int           `gorm:"not null;comment:'用户ID'"`
+	OpenID  string        `gorm:"not null;comment:'OpenID'"`
+	Channel OAuthPlatform `gorm:"not null;comment:'认证渠道'"`
+}
+
 const (
 	// PassWordCost 密码加密难度
 	PassWordCost = 12
 )
 
 // GetUser 用ID获取用户
-func GetUser(ID interface{}) (User, error) {
+func GetUser(id interface{}) (User, error) {
 	var user User
-	result := db.DB.Where("id = ?", ID).First(&user)
+	result := db.DB.Where("id = ?", id).First(&user)
 	return user, result.Error
 }
 

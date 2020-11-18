@@ -10,7 +10,7 @@ import (
 )
 
 // Create 创建模块
-func Create(c *gin.Context) serializer.Response {
+func Create(c *gin.Context) *serializer.Response {
 	var rs module.CreateService
 	if err := c.ShouldBind(&rs); err != nil {
 		return serializer.I18Error(err)
@@ -22,7 +22,7 @@ func Create(c *gin.Context) serializer.Response {
 }
 
 // Delete 删除模块
-func Delete(c *gin.Context) serializer.Response {
+func Delete(c *gin.Context) *serializer.Response {
 	var rs module.DeleteService
 	if err := c.ShouldBind(&rs); err != nil {
 		return serializer.I18Error(err)
@@ -34,7 +34,7 @@ func Delete(c *gin.Context) serializer.Response {
 }
 
 // View 查看模块
-func View(c *gin.Context) serializer.Response {
+func View(c *gin.Context) *serializer.Response {
 	var rs module.ViewService
 	if err := c.ShouldBind(&rs); err != nil {
 		return serializer.I18Error(err)

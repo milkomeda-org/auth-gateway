@@ -13,11 +13,9 @@ import (
 func RegisterProxy(c *gin.Context) {
 	var rs proxy2.RegisterService
 	if err := c.ShouldBind(&rs); err == nil {
+		cache.AppProxy.Handle(rs.Method, rs.Path, proxy.HostProxy)
 		res := rs.Register()
 		c.JSON(200, res)
-		go func() {
-			cache.AppProxy.Handle(rs.Method, rs.Path, proxy.HostProxy)
-		}()
 	} else {
 		c.JSON(200, serializer.I18Error(err))
 	}

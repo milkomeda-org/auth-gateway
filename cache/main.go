@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"oa-auth/util"
+	"oa-auth/util/log"
 	"os"
 	"strconv"
 
@@ -26,7 +26,7 @@ func Redis() {
 	_, err := client.Ping().Result()
 
 	if err != nil {
-		util.Panic("连接Redis不成功", err)
+		log.Panic("连接Redis不成功", err)
 	}
 
 	RedisClient = client

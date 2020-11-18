@@ -27,10 +27,9 @@ func (service *RegisterService) valid() *serializer.Response {
 }
 
 // Register 注册路由
-func (service RegisterService) Register() serializer.Response {
-
+func (service RegisterService) Register() *serializer.Response {
 	if err := service.valid(); err != nil {
-		return *err
+		return err
 	}
 
 	proxy := model.Proxy{
@@ -39,10 +38,16 @@ func (service RegisterService) Register() serializer.Response {
 	}
 
 	if err := db.DB.Create(&proxy).Error; err != nil {
-		return serializer.Response{Code: 40001, Msg: err.Error()}
+		return &serializer.Response{Code: 40001, Msg: err.Error()}
 	}
 
-	return serializer.Response{
+	return &serializer.Response{
 		Data: proxy,
 	}
+}
+
+func List() *[]model.Proxy {
+	var rs []model.Proxy
+	db.DB.Model(model.Proxy{}).Find(&rs)
+	return &rs
 }

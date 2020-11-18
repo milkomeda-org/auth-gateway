@@ -6,6 +6,7 @@ import (
 	"oa-auth/initializer/log"
 	"oa-auth/initializer/sys"
 	"oa-auth/router"
+	"oa-auth/tools"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -21,7 +22,7 @@ func main() {
 	//组件初始化
 	log.InitLogger()
 	db.InitDB()
-	//tools.Migration()
+	tools.Migration()
 	//系统初始化
 	sys.InitSystem()
 	// 装载路由
