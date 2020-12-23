@@ -1,10 +1,10 @@
 package proxy
 
 import (
+	"auth-gateway/util/log"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/http/httputil"
-	"oa-auth/util/log"
 	"strings"
 )
 

@@ -1,10 +1,10 @@
 package proxy
 
 import (
-	"oa-auth/cache"
-	"oa-auth/proxy"
-	"oa-auth/serializer"
-	proxy2 "oa-auth/service/proxy"
+	"auth-gateway/cache"
+	"auth-gateway/proxy"
+	"auth-gateway/serializer"
+	proxy2 "auth-gateway/service/proxy"
 
 	"github.com/gin-gonic/gin"
 )

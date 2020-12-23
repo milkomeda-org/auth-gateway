@@ -1,11 +1,11 @@
 package serializer
 
 import (
+	"auth-gateway/configs"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"oa-auth/configs"
 )
 
 // Response 基础序列化器

@@ -1,7 +1,7 @@
 package api
 
 import (
-	"oa-auth/serializer"
+	"auth-gateway/serializer"
 
 	"github.com/gin-gonic/gin"
 )

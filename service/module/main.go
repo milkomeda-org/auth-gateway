@@ -4,9 +4,9 @@
 package module
 
 import (
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/util/snow"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/util/snow"
 	"strconv"
 )
 

@@ -4,9 +4,9 @@
 package module
 
 import (
+	"auth-gateway/serializer"
+	"auth-gateway/service/module"
 	"github.com/gin-gonic/gin"
-	"oa-auth/serializer"
-	"oa-auth/service/module"
 )
 
 // Create 创建模块

@@ -1,8 +1,8 @@
 package role
 
 import (
-	"oa-auth/initializer/db"
-	"oa-auth/model"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
 )
 
 // CreateService 角色创建服务

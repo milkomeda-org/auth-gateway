@@ -1,10 +1,10 @@
 package user
 
 import (
-	"oa-auth/middleware"
-	"oa-auth/serializer"
-	user2 "oa-auth/serializer/user"
-	"oa-auth/service/user"
+	"auth-gateway/middleware"
+	"auth-gateway/serializer"
+	user2 "auth-gateway/serializer/user"
+	"auth-gateway/service/user"
 
 	"github.com/gin-gonic/gin"
 )

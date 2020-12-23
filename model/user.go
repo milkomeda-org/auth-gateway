@@ -1,8 +1,8 @@
 package model
 
 import (
+	"auth-gateway/initializer/db"
 	"golang.org/x/crypto/bcrypt"
-	"oa-auth/initializer/db"
 )
 
 // User 用户模型

@@ -1,12 +1,12 @@
 package middleware
 
 import (
+	"auth-gateway/initializer/db"
+	"auth-gateway/serializer"
+	jwt2 "auth-gateway/serializer/jwt"
+	u2 "auth-gateway/serializer/user"
+	"auth-gateway/util/log"
 	"fmt"
-	"oa-auth/initializer/db"
-	"oa-auth/serializer"
-	jwt2 "oa-auth/serializer/jwt"
-	u2 "oa-auth/serializer/user"
-	"oa-auth/util/log"
 	"os"
 	"strconv"
 

@@ -4,9 +4,9 @@
 package group
 
 import (
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/serializer/group"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/serializer/group"
 )
 
 // CreateService 用户组添加服务

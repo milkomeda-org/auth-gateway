@@ -4,8 +4,8 @@
 package sys
 
 import (
+	"auth-gateway/service/user"
 	"fmt"
-	"oa-auth/service/user"
 )
 
 func InitSystem() {

@@ -1,8 +1,8 @@
 package db
 
 import (
-	"oa-auth/configs"
-	"oa-auth/util/log"
+	"auth-gateway/configs"
+	"auth-gateway/util/log"
 	"os"
 	"time"
 
@@ -23,9 +23,9 @@ func InitDB() {
 	}
 
 	// 连接数据库
-	Database(os.Getenv("MYSQL_DSN"))
+	Database()
 	// 装载Casbin
-	CasbinLoader(os.Getenv("MYSQL_DSN"))
+	CasbinLoader()
 	//cache.Redis()
 }
 
@@ -33,8 +33,8 @@ func InitDB() {
 var DB *gorm.DB
 
 // Database 在中间件中初始化mysql链接
-func Database(connString string) {
-	db, err := gorm.Open(os.Getenv("XORM_DRIVER_NAME"), connString)
+func Database() {
+	db, err := gorm.Open(os.Getenv("XORM_DRIVER_NAME"), os.Getenv("DATABASE_DSN"))
 	// Error
 	if err != nil {
 		log.Panic("连接数据库不成功", err)
@@ -57,14 +57,14 @@ func Database(connString string) {
 var Enforcer *casbin.Enforcer
 
 // CasbinLoader casbin配置加载
-func CasbinLoader(connString string) {
+func CasbinLoader() {
 	defer func() {
 		if recover() != nil {
-			log.Panic("连接数据库错误: %s", connString)
+			log.Panic("连接数据库错误: %s", os.Getenv("DATABASE_DSN"))
 			return
 		}
 	}()
-	a := xormadapter.NewAdapter(os.Getenv("XORM_DRIVER_NAME"), connString, true)
+	a := xormadapter.NewAdapter(os.Getenv("XORM_DRIVER_NAME"), os.Getenv("DATABASE_DSN"), true)
 	Enforcer = casbin.NewEnforcer(os.Getenv("CASBIN_RBAC_MODELS_CONF_PATH"), a)
 	_ = Enforcer.LoadPolicy()
 }

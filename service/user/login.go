@@ -1,9 +1,9 @@
 package user
 
 import (
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/serializer"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/serializer"
 	"os"
 	"time"
 

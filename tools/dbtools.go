@@ -4,8 +4,8 @@
 package tools
 
 import (
-	"oa-auth/initializer/db"
-	"oa-auth/model"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
 )
 
 // Migration 自动建表

@@ -1,9 +1,9 @@
 package proxy
 
 import (
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/serializer"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/serializer"
 )
 
 // RegisterService 路由注册服务

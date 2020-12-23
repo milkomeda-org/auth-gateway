@@ -1,7 +1,7 @@
 package model
 
 import (
-	"oa-auth/enums/rrt"
+	"auth-gateway/enums/rrt"
 	"time"
 )
 

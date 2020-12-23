@@ -4,7 +4,7 @@
 package group
 
 import (
-	"oa-auth/model"
+	"auth-gateway/model"
 )
 
 type GroupSerializer struct {

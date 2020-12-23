@@ -4,9 +4,9 @@
 package group
 
 import (
+	"auth-gateway/serializer"
+	"auth-gateway/service/group"
 	"github.com/gin-gonic/gin"
-	"oa-auth/serializer"
-	"oa-auth/service/group"
 )
 
 // Create 创建用户组

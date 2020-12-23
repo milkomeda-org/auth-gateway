@@ -1,12 +1,12 @@
 package main
 
 import (
+	"auth-gateway/initializer/db"
+	"auth-gateway/initializer/log"
+	"auth-gateway/initializer/sys"
+	"auth-gateway/router"
+	"auth-gateway/tools"
 	"github.com/gin-gonic/gin"
-	"oa-auth/initializer/db"
-	"oa-auth/initializer/log"
-	"oa-auth/initializer/sys"
-	"oa-auth/router"
-	"oa-auth/tools"
 	"os"
 
 	"github.com/joho/godotenv"

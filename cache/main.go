@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"oa-auth/util/log"
+	"auth-gateway/util/log"
 	"os"
 	"strconv"
 

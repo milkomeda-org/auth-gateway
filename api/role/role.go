@@ -1,8 +1,8 @@
 package role
 
 import (
-	"oa-auth/serializer"
-	"oa-auth/service/role"
+	"auth-gateway/serializer"
+	"auth-gateway/service/role"
 
 	"github.com/gin-gonic/gin"
 )

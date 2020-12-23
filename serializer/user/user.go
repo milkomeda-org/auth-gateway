@@ -1,8 +1,8 @@
 package user
 
 import (
-	"oa-auth/model"
-	"oa-auth/serializer"
+	"auth-gateway/model"
+	"auth-gateway/serializer"
 )
 
 // User 用户序列化器

@@ -4,8 +4,8 @@
 package position
 
 import (
-	"oa-auth/serializer"
-	"oa-auth/service/position"
+	"auth-gateway/serializer"
+	"auth-gateway/service/position"
 
 	"github.com/gin-gonic/gin"
 )

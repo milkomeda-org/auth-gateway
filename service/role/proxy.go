@@ -4,11 +4,11 @@
 package role
 
 import (
+	rrt2 "auth-gateway/enums/rrt"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/service/rrt"
 	"errors"
-	rrt2 "oa-auth/enums/rrt"
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/service/rrt"
 	"sync"
 )
 

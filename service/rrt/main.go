@@ -4,9 +4,9 @@
 package rrt
 
 import (
-	"oa-auth/enums/rrt"
-	"oa-auth/initializer/db"
-	"oa-auth/model"
+	"auth-gateway/enums/rrt"
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
 )
 
 func Add(s int, t rrt.ResRelationType, o int) error {

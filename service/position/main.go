@@ -4,11 +4,11 @@
 package position
 
 import (
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/serializer/position"
 	"errors"
 	"github.com/lauvinson/gogo/gogo"
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/serializer/position"
 	"sync"
 )
 

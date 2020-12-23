@@ -4,9 +4,9 @@
 package office
 
 import (
+	"auth-gateway/serializer"
+	"auth-gateway/service/office"
 	"github.com/gin-gonic/gin"
-	"oa-auth/serializer"
-	"oa-auth/service/office"
 )
 
 // Create 创建组织

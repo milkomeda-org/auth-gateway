@@ -4,11 +4,11 @@
 package office
 
 import (
+	"auth-gateway/initializer/db"
+	"auth-gateway/model"
+	"auth-gateway/serializer/office"
 	"errors"
 	"github.com/lauvinson/gogo/gogo"
-	"oa-auth/initializer/db"
-	"oa-auth/model"
-	"oa-auth/serializer/office"
 )
 
 // CreateService 组织添加服务

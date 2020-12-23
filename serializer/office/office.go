@@ -4,7 +4,7 @@
 package office
 
 import (
-	"oa-auth/model"
+	"auth-gateway/model"
 
 	"github.com/lauvinson/gogo/gogo"
 )

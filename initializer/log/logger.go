@@ -1,8 +1,8 @@
 package log
 
 import (
+	"auth-gateway/util/log"
 	"fmt"
-	"oa-auth/util/log"
 )
 
 // 初始化日志

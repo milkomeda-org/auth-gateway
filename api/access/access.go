@@ -4,9 +4,9 @@
 package access
 
 import (
+	"auth-gateway/initializer/db"
+	"auth-gateway/serializer"
 	"errors"
-	"oa-auth/initializer/db"
-	"oa-auth/serializer"
 
 	"github.com/gin-gonic/gin"
 )
