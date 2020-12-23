@@ -36,3 +36,9 @@ func (receiver ViewService) Execute() (interface{}, error) {
 	var r []model.Role
 	return r, db.DB.Model(&model.Role{}).Find(&r, "").Error
 }
+
+func Exists(userName string) bool {
+	count := 0
+	db.DB.Model(&model.Role{}).Where("alias = ?", userName).Count(&count)
+	return count > 0
+}

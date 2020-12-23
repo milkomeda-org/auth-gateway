@@ -1,4 +1,4 @@
-// Copyright The ZHIYUN Co. All rights reserved.
+// Copyright The Milkomeda Org. All rights reserved.
 // Created by vinson on 2020/9/14.
 
 package group

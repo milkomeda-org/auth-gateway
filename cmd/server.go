@@ -4,6 +4,7 @@ import (
 	"auth-gateway/initializer/db"
 	"auth-gateway/initializer/log"
 	"auth-gateway/initializer/sys"
+	proxy2 "auth-gateway/proxy"
 	"auth-gateway/router"
 	"auth-gateway/tools"
 	"github.com/gin-gonic/gin"
@@ -23,9 +24,10 @@ func main() {
 	log.InitLogger()
 	db.InitDB()
 	tools.Migration()
+	proxy2.InitHost()
 	//系统初始化
 	sys.InitSystem()
 	// 装载路由
-	r := router.NewRouter()
+	r := router.New()
 	_ = r.Run(os.Getenv("SERVER_HOST"))
 }

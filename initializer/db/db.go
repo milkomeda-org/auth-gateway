@@ -1,6 +1,7 @@
 package db
 
 import (
+	"auth-gateway/cache"
 	"auth-gateway/configs"
 	"auth-gateway/util/log"
 	"os"
@@ -26,7 +27,7 @@ func InitDB() {
 	Database()
 	// 装载Casbin
 	CasbinLoader()
-	//cache.Redis()
+	cache.Redis()
 }
 
 // DB 数据库链接单例

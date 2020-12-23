@@ -1,4 +1,4 @@
-// Copyright The ZHIYUN Co. All rights reserved.
+// Copyright The Milkomeda Org. All rights reserved.
 // Created by vinson on 2020/9/14.
 
 package position
@@ -88,7 +88,7 @@ func (receiver ViewService) Execute() (interface{}, error) {
 	if nil != err {
 		return result, err
 	}
-	var se []gogo.ForkTreeNode
+	se := make([]gogo.ForkTreeNode, 0)
 	for _, v := range result {
 		temp := v
 		se = append(se, &temp)
