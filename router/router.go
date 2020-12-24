@@ -11,6 +11,7 @@ import (
 	role2 "auth-gateway/api/role"
 	user2 "auth-gateway/api/user"
 	"auth-gateway/cache"
+	"auth-gateway/enums"
 	"auth-gateway/middleware"
 	"auth-gateway/proxy"
 	"auth-gateway/serializer"
@@ -36,8 +37,9 @@ func restWrapper(execute handlerFunc) func(c *gin.Context) {
 	}
 }
 
-// NewRouter 路由配置
-func NewRouter() *gin.Engine {
+// New 路由配置
+//nolint:fun len
+func New() *gin.Engine {
 	r := gin.New()
 	r.Use(log.GinLogger(log.Logger), log.GinRecovery(log.Logger, true))
 
@@ -45,15 +47,12 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Cors())
 
 	// 路由
-	v1 := r.Group("/api/v1")
+	v1 := r.Group(enums.RoutePrefix)
 	{
 		v1.POST("ping", api.Ping)
 
 		// 用户登录
 		v1.POST("user/login", user2.Login)
-
-		//路由添加
-		v1.POST("proxy/register", aProxy.RegisterProxy)
 
 		// 需要登录保护的
 		auth := v1.Group("")
@@ -151,10 +150,21 @@ func NewRouter() *gin.Engine {
 		appProxy.Use(middleware.AuthRequired())
 		appProxy.Use(middleware.ResourceAccess())
 		{
-			// 人员信息表
+			//路由添加
+			appProxy.POST("/register", aProxy.RegisterProxy)
+			appProxy.POST("/host/register", aProxy.RegisterProxyHost)
+			appProxy.GET("/host/list", aProxy.ViewProxyHost)
 			if rs := sProxy.List(); nil != rs {
 				for _, v := range *rs {
-					appProxy.Handle(v.Method, v.Path, proxy.HostProxy)
+					handle := proxy.GetHost(v.HostID)
+					if nil != handle {
+						// 代理资源请求转发给绑定的主机
+						appProxy.Handle(v.Method, v.Path, func(c *gin.Context) {
+							handle.ServeHTTP(c.Writer, c.Request)
+						})
+					} else {
+						log.Error("host %d is not found", v.HostID)
+					}
 				}
 			}
 			cache.AppProxy = appProxy
